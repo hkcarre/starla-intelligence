@@ -240,6 +240,7 @@
             cursor: pointer;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -290,12 +291,28 @@
 
                 <!-- Suggested Questions -->
                 <div
-                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; text-align: left;">
+                    style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 48px; text-align: left;">
                     <button onclick="askQuestion('What is our market share in Germany?')"
                         style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
                         <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Market
                             Performance</div>
                         <div style="font-size: 14px; color: var(--text-secondary);">What is our market share in Germany?
+                        </div>
+                    </button>
+
+                    <button onclick="askQuestion('Show me the market share trend')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Trend Analysis
+                        </div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Show me the market share trend
+                        </div>
+                    </button>
+
+                    <button onclick="askQuestion('Compare all countries')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Country Comparison
+                        </div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Compare all countries
                         </div>
                     </button>
 
@@ -307,21 +324,19 @@
                             market</div>
                     </button>
 
-                    <button onclick="askQuestion('What are the top Growth Opportunities?')"
+                    <button onclick="askQuestion('Show category breakdown')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Category Mix</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Show category breakdown
+                        </div>
+                    </button>
+
+                    <button onclick="askQuestion('What are the top growth opportunities?')"
                         style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
                         <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Growth
                             Opportunities</div>
                         <div style="font-size: 14px; color: var(--text-secondary);">What are the top growth
                             opportunities?</div>
-                    </button>
-
-                    <button onclick="askQuestion('Show me consumer trend analysis')"
-                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">Consumer
-                            Trends
-                        </div>
-                        <div style="font-size: 14px; color: var(--text-secondary);">Show me consumer trend analysis
-                        </div>
                     </button>
                 </div>
 
@@ -520,10 +535,175 @@
                 opportunity: 'Cross-market expansion of Frappuccino Light SKU.',
                 rec1: 'Regional Sustainability Leadership Program',
                 rec1Details: 'Timeline: Q2 2025 | Investment: €50M | All markets',
-                rec2: 'Frappuccino Light Pan-European Rollout',
-                rec2Details: 'Timeline: Q3 2025 | Investment: €35M | 12 markets'
+                share: [14.8, 15.2, 15.6, 16.0, 16.3, 16.5, 16.6, 16.7, 16.8, 16.8],
+                categoryMix: { labels: ['Cold Brew', 'Frappuccino', 'Espresso', 'Oat Milk', 'Other'], values: [30, 20, 15, 28, 7] }
             }
         };
+
+        // Chart Generation Function
+        function generateChart(type, country) {
+            var canvas = document.createElement('canvas');
+            canvas.id = 'chart-' + Date.now();
+            canvas.style.maxWidth = '600px';
+            canvas.style.maxHeight = '400px';
+            canvas.style.margin = '16px 0';
+            canvas.style.backgroundColor = 'white';
+            canvas.style.padding = '16px';
+            canvas.style.borderRadius = '12px';
+
+            var config;
+            var countryName = country.charAt(0).toUpperCase() + country.slice(1);
+            var countryData = historicalData[country];
+
+            if (type === 'line') {
+                // Market share trend over time
+                config = {
+                    type: 'line',
+                    data: {
+                        labels: historicalData.periods,
+                        datasets: [{
+                            label: countryName + ' Market Share (%)',
+                            data: countryData.share,
+                            borderColor: '#00704A',
+                            backgroundColor: 'rgba(0, 112, 74, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#00704A'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Market Share Trend - ' + countryName.toUpperCase(),
+                                font: { size: 16, weight: 'bold', family: 'Inter' },
+                                color: '#1E3932',
+                                padding: { bottom: 20 }
+                            },
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                ticks: {
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                };
+            } else if (type === 'column') {
+                // All countries comparison
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: ['Netherlands', 'Germany', 'UK', 'France', 'Spain', 'Italy'],
+                        datasets: [{
+                            label: 'Current Market Share (%)',
+                            data: [historicalData.netherlands.share[9],
+                            historicalData.germany.share[9],
+                            historicalData.uk.share[9],
+                            historicalData.france.share[9],
+                            historicalData.spain.share[9],
+                            historicalData.italy.share[9]
+                            ],
+                            backgroundColor: '#00704A',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'EMEA Market Share Comparison - P7 2025',
+                                font: { size: 16, weight: 'bold', family: 'Inter' },
+                                color: '#1E3932',
+                                padding: { bottom: 20 }
+                            },
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            }
+                        }
+                    }
+                };
+            } else if (type === 'pie') {
+                // Category breakdown
+                config = {
+                    type: 'pie',
+                    data: {
+                        labels: countryData.categoryMix.labels,
+                        datasets: [{
+                            data: countryData.categoryMix.values,
+                            backgroundColor: ['#00704A', '#1E3932', '#A2C5AC', '#D4AD66', '#8B8378'],
+                            borderWidth: 2,
+                            borderColor: 'white'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Product Category Mix - ' + countryName.toUpperCase(),
+                                font: { size: 16, weight: 'bold', family: 'Inter' },
+                                color: '#1E3932',
+                                padding: { bottom: 20 }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    font: { size: 12, family: 'Inter' },
+                                    color: '#1E3932'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return context.label + ': ' + context.parsed + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+            }
+
+            setTimeout(function () {
+                new Chart(canvas, config);
+            }, 100);
+
+            return canvas;
+        }
 
         // View Switching
         function showView(viewName) {
@@ -585,38 +765,64 @@
             setTimeout(function () {
                 var q = msg.toLowerCase();
                 var country = document.getElementById('country-select').value;
+                var countryName = country.charAt(0).toUpperCase() + country.slice(1);
                 var countryData = data[country];
-                var countryName = country === 'all' ? 'All EMEA' : country.charAt(0).toUpperCase() + country.slice(1);
-                var responseText = '';
+                var responseText;
+                var responseDiv = document.createElement('div');
+                responseDiv.className = 'message';
 
-                // Market share questions
-                if (q.includes('market share') || q.includes('share')) {
-                    responseText = 'In <strong>' + countryName + '</strong>, Starbucks RTD holds <strong>' + countryData.share + '</strong> market share (' + countryData.change + '). ' + countryData.insight;
+                // Check for chart requests first
+                if ((q.includes('trend') || q.includes('over time') || q.includes('historical') || q.includes('chart')) && !q.includes('consumer')) {
+                    // Line chart - market share trend
+                    var chartCanvas = generateChart('line', country);
+                    var textDiv = document.createElement('div');
+                    textDiv.className = 'message-text';
+                    textDiv.innerHTML = '<strong>Starla:</strong> Here\'s the market share trend for ' + countryName + ' over the past 10 periods:';
+                    responseDiv.appendChild(textDiv);
+                    responseDiv.appendChild(chartCanvas);
                 }
-                // Competitive questions  
-                else if (q.includes('compet') || q.includes('threat') || q.includes('costa') || q.includes('monster')) {
-                    responseText = '<strong>Competitive Alert:</strong> ' + countryData.alert + ' Our current position: ' + countryData.share + ' (' + countryData.change + ').';
+                else if (q.includes('compare') || q.includes('all countries') || q.includes('regional') || q.includes('emea')) {
+                    // Column chart - country comparison
+                    var chartCanvas = generateChart('column', 'all');
+                    var textDiv = document.createElement('div');
+                    textDiv.className = 'message-text';
+                    textDiv.innerHTML = '<strong>Starla:</strong> Here\'s the current market share comparison across all EMEA countries:';
+                    responseDiv.appendChild(textDiv);
+                    responseDiv.appendChild(chartCanvas);
                 }
-                // Growth questions
-                else if (q.includes('growth') || q.includes('opportunit')) {
-                    responseText = '<strong>Growth Opportunity:</strong> ' + countryData.opportunity + ' Current trend: ' + countryData.trend;
+                else if (q.includes('breakdown') || q.includes('mix') || q.includes('category') || q.includes('product')) {
+                    // Pie chart - category breakdown
+                    var chartCanvas = generateChart('pie', country);
+                    var textDiv = document.createElement('div');
+                    textDiv.className = 'message-text';
+                    textDiv.innerHTML = '<strong>Starla:</strong> Here\'s the product category mix for ' + countryName + ':';
+                    responseDiv.appendChild(textDiv);
+                    responseDiv.appendChild(chartCanvas);
                 }
-                // Trend questions
-                else if (q.includes('trend') || q.includes('consumer')) {
-                    responseText = '<strong>Key Trend:</strong> ' + countryData.trend + ' This aligns with our ' + countryData.change + ' performance.';
-                }
-                // Default intelligent response
                 else {
-                    responseText = 'Based on <strong>P7 2025</strong> data for ' + countryName + ':<br><br>' +
-                        '<strong>Market Share:</strong> ' + countryData.share + ' (' + countryData.change + ')<br>' +
-                        '<strong>Key Insight:</strong> ' + countryData.insight + '<br><br>' +
-                        'Would you like me to dive deeper into any specific aspect?';
+                    // Text-based intelligent responses
+                    if (q.includes('share') || q.includes('market')) {
+                        responseText = 'In <strong>' + countryName + '</strong>, Starbucks RTD holds <strong>' + countryData.share + '</strong> market share (' + countryData.change + '). ' + countryData.insight;
+                    }
+                    else if (q.includes('compet') || q.includes('threat') || q.includes('costa') || q.includes('monster')) {
+                        responseText = '<strong>Competitive Alert:</strong> ' + countryData.alert + ' Our current position: ' + countryData.share + ' (' + countryData.change + ').';
+                    }
+                    else if (q.includes('growth') || q.includes('opportunit')) {
+                        responseText = '<strong>Growth Opportunity:</strong> ' + countryData.opportunity + ' Current trend: ' + countryData.trend;
+                    }
+                    else if (q.includes('consumer') && q.includes('trend')) {
+                        responseText = '<strong>Key Trend:</strong> ' + countryData.trend + ' This aligns with our ' + countryData.change + ' performance.';
+                    }
+                    else {
+                        responseText = 'Based on <strong>P7 2025</strong> data for ' + countryName + ':<br><br>' +
+                            '<strong>Market Share:</strong> ' + countryData.share + ' (' + countryData.change + ')<br>' +
+                            '<strong>Key Insight:</strong> ' + countryData.insight + '<br><br>' +
+                            'Would you like me to show you a chart? Try: "Show me the trend" or "Compare all countries"';
+                    }
+                    responseDiv.innerHTML = '<div class="message-text"><strong>Starla:</strong> ' + responseText + '</div>';
                 }
 
-                var response = document.createElement('div');
-                response.className = 'message';
-                response.innerHTML = '<div class="message-text"><strong>Starla:</strong> ' + responseText + '</div>';
-                document.getElementById('chat-messages').appendChild(response);
+                document.getElementById('chat-messages').appendChild(responseDiv);
                 document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
             }, 100);
         }

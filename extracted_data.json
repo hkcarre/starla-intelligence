@@ -1,0 +1,38 @@
+{
+  "germany": {
+    "name": "Germany",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  },
+  "unitedkingdom": {
+    "name": "United Kingdom",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  },
+  "italy": {
+    "name": "Italy",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  },
+  "france": {
+    "name": "France",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  },
+  "spain": {
+    "name": "Spain",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  },
+  "netherlands": {
+    "name": "Netherlands",
+    "periods": [],
+    "share_values": [],
+    "change_values": []
+  }
+}
