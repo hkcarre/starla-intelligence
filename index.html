@@ -4,44 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STARLA Intelligence Platform | Starbucks RTD Analytics</title>
+    <title>STARLA Intelligence | Starbucks RTD Analytics</title>
     <meta name="description" content="AI-powered market intelligence for Starbucks EMEA Ready-to-Drink business">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            /* Starbucks Brand Colors */
             --starbucks-green: #00704A;
             --starbucks-green-light: #1E9E6B;
-            --starbucks-green-dark: #00553A;
-            --starbucks-gold: #D4A86C;
-            --starbucks-cream: #F2F0EB;
-            --starbucks-black: #1E1E1E;
-
-            /* UI Colors */
-            --bg-primary: #0A0F1C;
-            --bg-secondary: #111827;
-            --bg-card: rgba(17, 24, 39, 0.8);
-            --bg-card-hover: rgba(30, 41, 59, 0.9);
-            --text-primary: #F9FAFB;
-            --text-secondary: #9CA3AF;
-            --text-muted: #6B7280;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-glow: rgba(0, 112, 74, 0.3);
-
-            /* Agent Colors */
-            --agent-data: #3B82F6;
-            --agent-competitive: #F97316;
-            --agent-market: #8B5CF6;
-            --agent-scientist: #10B981;
-            --agent-mckinsey: #EAB308;
-
-            /* Status Colors */
-            --success: #10B981;
-            --warning: #F59E0B;
-            --error: #EF4444;
-            --info: #3B82F6;
+            --starbucks-green-dark: #006241;
+            --starbucks-gold: #CBA258;
+            --bg-dark: #0D1117;
+            --bg-card: #161B22;
+            --bg-card-lighter: #1C2128;
+            --bg-input: #21262D;
+            --text-primary: #F0F6FC;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --border-color: #30363D;
+            --teal: #3FB88C;
+            --gold-badge: #CBA258;
+            --priority-green: #238636;
         }
 
         * {
@@ -52,89 +36,62 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
+            background: var(--bg-dark);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Background Effects */
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 112, 74, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(212, 168, 108, 0.08), transparent),
-                radial-gradient(ellipse 60% 40% at 0% 80%, rgba(0, 112, 74, 0.1), transparent);
-            pointer-events: none;
-            z-index: 0;
         }
 
         /* Header */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 72px;
-            background: rgba(10, 15, 28, 0.95);
-            backdrop-filter: blur(20px);
+            height: 64px;
+            background: var(--bg-card);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
-            z-index: 100;
+            padding: 0 24px;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .starbucks-logo {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: var(--starbucks-green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: white;
-            font-weight: 700;
+            font-size: 22px;
         }
 
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-name {
+        .brand-title {
             font-family: 'Sora', sans-serif;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
         }
 
-        .brand-sub {
-            font-size: 12px;
-            color: var(--starbucks-gold);
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .brand-title .starla {
+            color: var(--text-primary);
+        }
+
+        .brand-title .intelligence {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .powered-by {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
@@ -143,133 +100,105 @@
             font-weight: 600;
         }
 
-        /* Main Container */
-        .main-container {
-            padding-top: 72px;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
+        .user-email {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg-input);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
         }
 
-        /* Country Selector Bar */
+        /* Selector Bar */
         .selector-bar {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 32px;
+            background: var(--bg-card);
+            padding: 12px 24px;
             display: flex;
             align-items: center;
-            gap: 24px;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .selector-group {
+        .selectors {
             display: flex;
-            align-items: center;
             gap: 12px;
         }
 
-        .selector-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-
-        .custom-select {
-            appearance: none;
-            background: var(--bg-card);
+        .dropdown {
+            background: var(--bg-input);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 40px 10px 16px;
-            font-size: 14px;
+            border-radius: 6px;
+            padding: 10px 16px;
             color: var(--text-primary);
+            font-size: 14px;
             cursor: pointer;
-            min-width: 160px;
-            transition: all 0.2s ease;
-        }
-
-        .custom-select:hover {
-            border-color: var(--starbucks-green);
-        }
-
-        .custom-select:focus {
-            outline: none;
-            border-color: var(--starbucks-green);
-            box-shadow: 0 0 0 3px var(--border-glow);
-        }
-
-        .select-arrow {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--text-secondary);
+            min-width: 120px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238B949E' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
         }
 
         .period-badge {
             background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
             color: white;
             padding: 8px 16px;
-            border-radius: 20px;
+            border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Dashboard Grid */
-        .dashboard-grid {
+        /* Main Layout */
+        .main-content {
             display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 24px;
-            padding: 24px 32px;
-            max-width: 1800px;
-            margin: 0 auto;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            padding: 20px 24px;
+            max-height: calc(100vh - 130px);
         }
 
-        /* Q&A Panel */
-        .qa-panel {
+        /* Chat Panel */
+        .chat-panel {
             background: var(--bg-card);
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            border-radius: 16px;
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 180px);
             overflow: hidden;
         }
 
-        .panel-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
+        .chat-header {
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .panel-icon {
-            width: 40px;
-            height: 40px;
+        .chat-icon {
+            width: 36px;
+            height: 36px;
             background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
         }
 
-        .panel-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 18px;
+        .chat-title {
+            font-size: 16px;
             font-weight: 600;
         }
 
-        .chat-container {
+        .chat-messages {
             flex: 1;
+            padding: 16px 20px;
             overflow-y: auto;
-            padding: 20px 24px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -278,461 +207,350 @@
         .message {
             display: flex;
             gap: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
             flex-shrink: 0;
         }
 
         .message-avatar.user {
-            background: linear-gradient(135deg, var(--starbucks-gold), #C09858);
+            background: var(--bg-input);
+            color: var(--text-secondary);
         }
 
         .message-avatar.agent {
             background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
         }
 
-        .message-content {
-            flex: 1;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 14px;
-            line-height: 1.6;
+        .message-bubble {
+            background: var(--bg-card-lighter);
             border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            max-width: 100%;
         }
 
-        .message.user .message-content {
-            background: rgba(0, 112, 74, 0.15);
-            border-color: rgba(0, 112, 74, 0.3);
+        .message-bubble.user {
+            background: var(--bg-input);
         }
 
-        .validation-badges {
-            display: flex;
-            gap: 8px;
+        .chart-placeholder {
+            background: var(--bg-input);
+            border-radius: 8px;
+            height: 120px;
             margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .validation-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .validation-badge.data-scientist {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--agent-scientist);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .validation-badge.mckinsey {
-            background: rgba(234, 179, 8, 0.15);
-            color: var(--agent-mckinsey);
-            border: 1px solid rgba(234, 179, 8, 0.3);
-        }
-
-        .input-container {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 14px;
-            color: var(--text-primary);
-            resize: none;
-            min-height: 50px;
-            max-height: 120px;
-            font-family: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--starbucks-green);
-            box-shadow: 0 0 0 3px var(--border-glow);
-        }
-
-        .chat-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .send-btn {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
         }
 
-        .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 112, 74, 0.4);
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 80px;
         }
 
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .chart-bar {
+            width: 24px;
+            background: linear-gradient(180deg, var(--starbucks-green-light), var(--starbucks-green));
+            border-radius: 4px 4px 0 0;
+        }
+
+        .chat-input-area {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .search-input {
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 12px 20px;
+            gap: 12px;
+        }
+
+        .search-input input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-icon {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .suggested-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .suggested-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggested-btn:hover {
+            border-color: var(--starbucks-green);
+            color: var(--text-primary);
+            background: var(--bg-card-lighter);
         }
 
         /* Right Panel */
         .right-panel {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
+            overflow-y: auto;
         }
 
-        /* Insights Panel */
-        .insights-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
+        /* Insights Section */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
 
         .insights-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            padding: 20px 24px;
         }
 
         .insight-card {
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .insight-card:hover {
-            border-color: var(--starbucks-green);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 112, 74, 0.15);
-        }
-
-        .insight-type {
+        .insight-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 12px;
         }
 
-        .insight-type.market-share {
-            color: var(--agent-data);
-        }
-
-        .insight-type.competitive {
-            color: var(--agent-competitive);
-        }
-
-        .insight-type.trend {
-            color: var(--agent-market);
-        }
-
-        .insight-type.opportunity {
-            color: var(--success);
-        }
-
-        .insight-headline {
+        .insight-icon {
             font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.4;
         }
 
-        .insight-detail {
+        .insight-label {
             font-size: 13px;
             color: var(--text-secondary);
-            line-height: 1.5;
         }
 
         .insight-metric {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-color);
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
         .metric-value {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: 700;
-            color: var(--starbucks-green-light);
+            color: var(--text-primary);
         }
 
         .metric-change {
-            font-size: 13px;
-            font-weight: 600;
-            padding: 4px 8px;
+            background: var(--starbucks-green);
+            color: white;
+            padding: 4px 10px;
             border-radius: 4px;
-        }
-
-        .metric-change.positive {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .metric-change.negative {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--error);
+            background: #DA3633;
         }
 
-        /* Recommendations Panel */
-        .recommendations-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .recommendations-list {
-            padding: 20px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .recommendation-card {
-            background: linear-gradient(135deg, rgba(0, 112, 74, 0.1), rgba(0, 112, 74, 0.05));
-            border: 1px solid rgba(0, 112, 74, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .recommendation-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--starbucks-green), var(--starbucks-gold));
-        }
-
-        .recommendation-priority {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-
-        .priority-high {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--error);
-        }
-
-        .priority-medium {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-        }
-
-        .recommendation-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .recommendation-detail {
+        .insight-desc {
             font-size: 13px;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 16px;
         }
 
-        .recommendation-actions {
+        .validation-badges {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
-        .action-item {
+        .badge {
             display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .badge.scientist {
+            background: rgba(63, 184, 140, 0.15);
+            color: var(--teal);
+            border: 1px solid rgba(63, 184, 140, 0.3);
+        }
+
+        .badge.mckinsey {
+            background: rgba(203, 162, 88, 0.15);
+            color: var(--gold-badge);
+            border: 1px solid rgba(203, 162, 88, 0.3);
+        }
+
+        /* Recommendations Section */
+        .recommendations-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .recommendation-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recommendation-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .recommendation-card:first-of-type {
+            padding-top: 0;
+        }
+
+        .rec-left {
+            flex: 1;
+        }
+
+        .priority-badge {
+            display: inline-flex;
             align-items: center;
             gap: 6px;
+            background: var(--priority-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
             font-size: 12px;
-            color: var(--text-primary);
-            background: var(--bg-card);
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .recommendation-validation {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .confidence-meter {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .confidence-bar {
-            width: 60px;
-            height: 6px;
-            background: var(--bg-secondary);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--starbucks-green), var(--success));
-            border-radius: 3px;
-        }
-
-        .confidence-text {
-            font-size: 11px;
             font-weight: 600;
-            color: var(--success);
+            margin-bottom: 10px;
         }
 
-        /* Agent Workflow Indicator */
-        .agent-workflow {
+        .rec-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .rec-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .rec-detail {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
-        .agent-step {
+        .rec-detail-icon {
+            font-size: 14px;
+        }
+
+        .rec-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .confidence-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .confidence-gauge {
+            width: 70px;
+            height: 70px;
+            position: relative;
+        }
+
+        .gauge-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--starbucks-green-light) 0deg 324deg,
+                    var(--bg-input) 324deg 360deg);
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: var(--text-muted);
+            justify-content: center;
         }
 
-        .agent-step.active {
-            color: var(--starbucks-green-light);
-        }
-
-        .agent-step.completed {
-            color: var(--success);
-        }
-
-        .agent-connector {
-            width: 20px;
-            height: 2px;
-            background: var(--border-color);
-        }
-
-        .agent-connector.completed {
-            background: var(--success);
-        }
-
-        /* Loading States */
-        .typing-indicator {
-            display: flex;
-            gap: 4px;
-            padding: 8px 12px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--starbucks-green);
+        .gauge-inner {
+            width: 54px;
+            height: 54px;
+            background: var(--bg-card);
             border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out both;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .typing-dot:nth-child(1) {
-            animation-delay: -0.32s;
+        .gauge-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
-        .typing-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-
-        @keyframes typing {
-
-            0%,
-            80%,
-            100% {
-                transform: scale(0.6);
-                opacity: 0.6;
-            }
-
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        .gauge-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--starbucks-green-light);
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -741,318 +559,228 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
-
-        /* Empty State */
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .empty-state-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            margin-bottom: 24px;
-        }
-
-        .empty-state-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .empty-state-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            max-width: 300px;
-            line-height: 1.6;
-        }
-
-        .suggested-questions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 24px;
-            width: 100%;
-        }
-
-        .suggested-question {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px 16px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .suggested-question:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--starbucks-green);
-            color: var(--text-primary);
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .qa-panel {
-                height: 500px;
-            }
+            border-radius: 3px;
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-gradient"></div>
-
     <!-- Header -->
     <header class="header">
         <div class="logo-section">
             <div class="starbucks-logo">☕</div>
-            <div class="brand-text">
-                <span class="brand-name">STARLA Intelligence</span>
-                <span class="brand-sub">RTD Market Analytics</span>
+            <div class="brand-title">
+                <span class="starla">STARLA</span>
+                <span class="intelligence"> Intelligence</span>
             </div>
         </div>
-        <nav class="nav-tabs" style="display: flex; gap: 8px;">
-            <a href="index.html" class="nav-tab"
-                style="padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; color: white; background: linear-gradient(135deg, #00704A, #1E9E6B);">Dashboard</a>
-            <a href="commentary.html" class="nav-tab"
-                style="padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; color: #9CA3AF; border: 1px solid transparent; transition: all 0.2s ease;">Monthly
-                Commentary</a>
-        </nav>
-        <div class="powered-by">
-            Powered by <span>OptiaData</span>
+        <div class="header-right">
+            <div class="powered-by">
+                ⭐ Powered by <span>OptiaData</span>
+            </div>
+            <div class="user-email">helena.carre@starbucks.com</div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Selector Bar -->
-        <div class="selector-bar">
-            <div class="selector-group">
-                <span class="selector-label">Country</span>
-                <div class="select-wrapper">
-                    <select class="custom-select" id="countrySelect">
-                        <option value="all">All EMEA</option>
-                        <option value="germany" selected>Germany</option>
-                        <option value="uk">United Kingdom</option>
-                        <option value="italy">Italy</option>
-                        <option value="spain">Spain</option>
-                        <option value="netherlands">Netherlands</option>
-                        <option value="poland">Poland</option>
-                        <option value="sweden">Sweden</option>
-                        <option value="austria">Austria</option>
-                        <option value="switzerland">Switzerland</option>
-                        <option value="denmark">Denmark</option>
-                        <option value="norway">Norway</option>
-                        <option value="greece">Greece</option>
-                        <option value="croatia">Croatia</option>
-                        <option value="turkey">Turkey</option>
-                        <option value="uae">UAE</option>
-                        <option value="saudi">Saudi Arabia</option>
-                    </select>
-                    <span class="select-arrow">▼</span>
+    <!-- Selector Bar -->
+    <div class="selector-bar">
+        <div class="selectors">
+            <select class="dropdown" id="countrySelect">
+                <option value="germany">Germany</option>
+                <option value="uk">United Kingdom</option>
+                <option value="italy">Italy</option>
+                <option value="spain">Spain</option>
+                <option value="netherlands">Netherlands</option>
+                <option value="poland">Poland</option>
+                <option value="sweden">Sweden</option>
+                <option value="all">All EMEA</option>
+            </select>
+            <select class="dropdown" id="periodSelect">
+                <option value="p7-2025">P7 2025</option>
+                <option value="p6-2025">P6 2025</option>
+                <option value="p5-2025">P5 2025</option>
+            </select>
+        </div>
+        <div class="period-badge">
+            📊 P7 2025 • Germany
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Chat Panel -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-icon">💬</div>
+                <span class="chat-title">Ask STARLA</span>
+            </div>
+            <div class="chat-messages">
+                <div class="message">
+                    <div class="message-avatar user">👤</div>
+                    <div class="message-bubble user">
+                        Analyze Starbucks' performance in Germany last period
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="message-avatar agent">☕</div>
+                    <div class="message-bubble">
+                        Certainly! Starbucks RTD market share in Germany increased by 2.3pp to 15.3% in P7 2025,
+                        outperforming the category growth.
+                        <div class="chart-placeholder">
+                            <div class="chart-bars">
+                                <div class="chart-bar" style="height: 40px;"></div>
+                                <div class="chart-bar" style="height: 55px;"></div>
+                                <div class="chart-bar" style="height: 45px;"></div>
+                                <div class="chart-bar" style="height: 60px;"></div>
+                                <div class="chart-bar" style="height: 50px;"></div>
+                                <div class="chart-bar" style="height: 70px;"></div>
+                                <div class="chart-bar" style="height: 80px;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="selector-group">
-                <span class="selector-label">Period</span>
-                <div class="select-wrapper">
-                    <select class="custom-select" id="periodSelect">
-                        <option value="p7-2025" selected>P7 2025</option>
-                        <option value="p6-2025">P6 2025</option>
-                        <option value="p5-2025">P5 2025</option>
-                        <option value="p4-2025">P4 2025</option>
-                        <option value="p3-2025">P3 2025</option>
-                        <option value="p2-2025">P2 2025</option>
-                        <option value="p1-2025">P1 2025</option>
-                        <option value="p13-2024">P13 2024</option>
-                        <option value="p12-2024">P12 2024</option>
-                        <option value="p11-2024">P11 2024</option>
-                    </select>
-                    <span class="select-arrow">▼</span>
+            <div class="chat-input-area">
+                <div class="search-input">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Ask anything about Starbucks RTD market data...">
+                </div>
+                <div class="suggested-questions">
+                    <button class="suggested-btn" onclick="askQuestion('What is our current market share?')">
+                        What is our current market share?
+                    </button>
+                    <button class="suggested-btn" onclick="askQuestion('How is Monster performing?')">
+                        How is Monster performing?
+                    </button>
+                    <button class="suggested-btn" onclick="askQuestion('Where should we focus investment?')">
+                        Where should we focus investment?
+                    </button>
                 </div>
             </div>
-            <div class="period-badge" id="currentPeriodBadge">📊 P7 2025 • Germany</div>
         </div>
 
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Q&A Panel -->
-            <div class="qa-panel">
-                <div class="panel-header">
-                    <div class="panel-icon">💬</div>
-                    <span class="panel-title">Ask STARLA</span>
-                </div>
-                <div class="chat-container" id="chatContainer">
-                    <div class="empty-state" id="emptyState">
-                        <div class="empty-state-icon">🔍</div>
-                        <h3 class="empty-state-title">Ask About Your Market</h3>
-                        <p class="empty-state-desc">Get validated insights about Starbucks RTD performance, competitor
-                            activities, and market opportunities.</p>
-                        <div class="suggested-questions">
-                            <button class="suggested-question"
-                                onclick="askQuestion('What is our current market share in Germany?')">
-                                📊 What is our current market share in Germany?
-                            </button>
-                            <button class="suggested-question"
-                                onclick="askQuestion('How is Monster performing vs last period?')">
-                                ⚔️ How is Monster performing vs last period?
-                            </button>
-                            <button class="suggested-question"
-                                onclick="askQuestion('Where should we focus our investment?')">
-                                🎯 Where should we focus our investment?
-                            </button>
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div>
+                <h2 class="section-title">Actionable Insights</h2>
+                <div class="insights-grid">
+                    <!-- Market Share -->
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <span class="insight-icon">📊</span>
+                            <span class="insight-label">Market Share</span>
+                        </div>
+                        <div class="insight-metric">
+                            <span class="metric-value">15.3%</span>
+                            <span class="metric-change">+2.3pp</span>
+                        </div>
+                        <p class="insight-desc">Starbucks RTD market share increased, outperforming category growth.</p>
+                        <div class="validation-badges">
+                            <span class="badge scientist">✓ Sr Data Scientist</span>
+                            <span class="badge mckinsey">✓ McKinsey Expert</span>
                         </div>
                     </div>
-                </div>
-                <div class="input-container">
-                    <div class="input-wrapper">
-                        <textarea class="chat-input" id="chatInput"
-                            placeholder="Ask about market share, competitors, trends..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+                    <!-- Competitive Alert -->
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <span class="insight-icon">⚔️</span>
+                            <span class="insight-label">Competitive Alert</span>
+                        </div>
+                        <p class="insight-desc" style="margin-top: 8px;">Monster Energy is increasing promotional spend
+                            in the energy segment by 12%.</p>
+                        <div class="validation-badges" style="margin-top: auto;">
+                            <span class="badge scientist">✓ Sr Data Scientist</span>
+                            <span class="badge mckinsey">✓ McKinsey Expert</span>
+                        </div>
+                    </div>
+                    <!-- Trend -->
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <span class="insight-icon">📈</span>
+                            <span class="insight-label">Trend</span>
+                        </div>
+                        <p class="insight-desc" style="margin-top: 8px;">Premium Cold Brew segment shows 25% YoY growth,
+                            driven by urban centers.</p>
+                        <div class="validation-badges" style="margin-top: auto;">
+                            <span class="badge scientist">✓ Sr Data Scientist</span>
+                            <span class="badge mckinsey">✓ McKinsey Expert</span>
+                        </div>
+                    </div>
+                    <!-- Opportunity -->
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <span class="insight-icon">💡</span>
+                            <span class="insight-label">Opportunity</span>
+                        </div>
+                        <p class="insight-desc" style="margin-top: 8px;">Nordic markets represent a $50M growth
+                            opportunity in plant-based RTD.</p>
+                        <div class="validation-badges" style="margin-top: auto;">
+                            <span class="badge scientist">✓ Sr Data Scientist</span>
+                            <span class="badge mckinsey">✓ McKinsey Expert</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Panel -->
-            <div class="right-panel">
-                <!-- Insights Panel -->
-                <div class="insights-panel">
-                    <div class="panel-header">
-                        <div class="panel-icon">⚡</div>
-                        <span class="panel-title">Actionable Insights</span>
+            <!-- Strategic Recommendations -->
+            <div class="recommendations-section">
+                <h2 class="section-title">Strategic Recommendations</h2>
+
+                <div class="recommendation-card">
+                    <div class="rec-left">
+                        <div class="priority-badge">Priority 1</div>
+                        <h3 class="rec-title">Accelerate Convenience Channel Investment</h3>
+                        <div class="rec-details">
+                            <div class="rec-detail">
+                                <span class="rec-detail-icon">📅</span>
+                                Timeline: Q4 2025 - Q1 2026
+                            </div>
+                            <div class="rec-detail">
+                                <span class="rec-detail-icon">📈</span>
+                                Investment %: 35% Increase
+                            </div>
+                            <div class="rec-detail">
+                                <span class="rec-detail-icon">🎯</span>
+                                Target share: +1.5pp within 6 months
+                            </div>
+                        </div>
                     </div>
-                    <div class="insights-grid" id="insightsGrid">
-                        <div class="insight-card">
-                            <div class="insight-type market-share">📊 Market Share</div>
-                            <h4 class="insight-headline">Starbucks Gains Ground in Germany</h4>
-                            <p class="insight-detail">RTD Coffee segment shows strong momentum with Frappuccino leading
-                                growth in convenience channel.</p>
-                            <div class="insight-metric">
-                                <span class="metric-value">15.3%</span>
-                                <span class="metric-change positive">+2.3pp</span>
-                            </div>
-                            <div class="validation-badges">
-                                <span class="validation-badge data-scientist">✓ Sr Data Scientist</span>
-                                <span class="validation-badge mckinsey">✓ McKinsey Expert</span>
-                            </div>
-                        </div>
-                        <div class="insight-card">
-                            <div class="insight-type competitive">⚔️ Competitive Alert</div>
-                            <h4 class="insight-headline">Monster Expanding Distribution</h4>
-                            <p class="insight-detail">Monster increased convenience store presence by 18% in P7,
-                                threatening Starbucks' on-the-go segment.</p>
-                            <div class="insight-metric">
-                                <span class="metric-value">+18%</span>
-                                <span class="metric-change negative">Distribution</span>
-                            </div>
-                            <div class="validation-badges">
-                                <span class="validation-badge data-scientist">✓ Sr Data Scientist</span>
-                            </div>
-                        </div>
-                        <div class="insight-card">
-                            <div class="insight-type trend">📈 Trend</div>
-                            <h4 class="insight-headline">Premium RTD Coffee Rising</h4>
-                            <p class="insight-detail">Premium segment growing 3x faster than value tier across EMEA,
-                                favoring Starbucks positioning.</p>
-                            <div class="insight-metric">
-                                <span class="metric-value">3x</span>
-                                <span class="metric-change positive">Growth</span>
-                            </div>
-                            <div class="validation-badges">
-                                <span class="validation-badge data-scientist">✓ Sr Data Scientist</span>
-                                <span class="validation-badge mckinsey">✓ McKinsey Expert</span>
-                            </div>
-                        </div>
-                        <div class="insight-card">
-                            <div class="insight-type opportunity">💡 Opportunity</div>
-                            <h4 class="insight-headline">Nordic Markets Underserved</h4>
-                            <p class="insight-detail">Sweden & Norway show high coffee consumption but low RTD
-                                penetration - significant white space.</p>
-                            <div class="insight-metric">
-                                <span class="metric-value">24%</span>
-                                <span class="metric-change positive">Upside</span>
-                            </div>
-                            <div class="validation-badges">
-                                <span class="validation-badge mckinsey">✓ McKinsey Expert</span>
+                    <div class="rec-right">
+                        <span class="confidence-label">Confidence</span>
+                        <div class="confidence-gauge">
+                            <div class="gauge-circle">
+                                <div class="gauge-inner">
+                                    <span class="gauge-value">90%</span>
+                                    <span class="gauge-label">HIGH</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recommendations Panel -->
-                <div class="recommendations-panel">
-                    <div class="panel-header">
-                        <div class="panel-icon">🎯</div>
-                        <span class="panel-title">Strategic Recommendations</span>
-                    </div>
-                    <div class="recommendations-list" id="recommendationsList">
-                        <div class="recommendation-card">
-                            <span class="recommendation-priority priority-high">🔴 Priority 1</span>
-                            <h4 class="recommendation-title">Accelerate Convenience Channel Investment in Germany</h4>
-                            <p class="recommendation-detail">Increase trade marketing spend by 20% in convenience
-                                channel to defend against Monster's distribution expansion. Focus on cold chain
-                                visibility and promotional endcaps.</p>
-                            <div class="recommendation-actions">
-                                <span class="action-item">📅 Timeline: P8-P10</span>
-                                <span class="action-item">💰 Investment: +20%</span>
-                                <span class="action-item">🎯 Target: +2pp share</span>
+                <div class="recommendation-card">
+                    <div class="rec-left">
+                        <div class="priority-badge">Priority 2</div>
+                        <h3 class="rec-title">Develop New Premium Oat Milk SKUs</h3>
+                        <div class="rec-details">
+                            <div class="rec-detail">
+                                <span class="rec-detail-icon">📅</span>
+                                Timeline: Q4 2025 - Q1 2026
                             </div>
-                            <div class="recommendation-validation">
-                                <div class="validation-badges">
-                                    <span class="validation-badge data-scientist">✓ Data Validated</span>
-                                    <span class="validation-badge mckinsey">✓ Strategy Approved</span>
-                                </div>
-                                <div class="confidence-meter">
-                                    <div class="confidence-bar">
-                                        <div class="confidence-fill" style="width: 90%"></div>
-                                    </div>
-                                    <span class="confidence-text">HIGH</span>
-                                </div>
+                            <div class="rec-detail">
+                                <span class="rec-detail-icon">📈</span>
+                                Investment %: 25% Increase
                             </div>
                         </div>
-                        <div class="recommendation-card">
-                            <span class="recommendation-priority priority-medium">🟡 Priority 2</span>
-                            <h4 class="recommendation-title">Launch Nordic Market Expansion Pilot</h4>
-                            <p class="recommendation-detail">Test expanded distribution in Sweden with focus on major
-                                city convenience stores. Nordic coffee culture presents premium positioning opportunity.
-                            </p>
-                            <div class="recommendation-actions">
-                                <span class="action-item">📅 Timeline: P9-P13</span>
-                                <span class="action-item">💰 Pilot Budget: €500K</span>
-                                <span class="action-item">🎯 Target: 5% share</span>
-                            </div>
-                            <div class="recommendation-validation">
-                                <div class="validation-badges">
-                                    <span class="validation-badge data-scientist">✓ Data Validated</span>
-                                    <span class="validation-badge mckinsey">✓ Strategy Approved</span>
-                                </div>
-                                <div class="confidence-meter">
-                                    <div class="confidence-bar">
-                                        <div class="confidence-fill" style="width: 75%"></div>
-                                    </div>
-                                    <span class="confidence-text">MEDIUM</span>
+                    </div>
+                    <div class="rec-right">
+                        <span class="confidence-label">Confidence</span>
+                        <div class="confidence-gauge">
+                            <div class="gauge-circle"
+                                style="background: conic-gradient(var(--starbucks-green-light) 0deg 306deg, var(--bg-input) 306deg 360deg);">
+                                <div class="gauge-inner">
+                                    <span class="gauge-value">85%</span>
+                                    <span class="gauge-label">HIGH</span>
                                 </div>
                             </div>
                         </div>
@@ -1063,270 +791,21 @@
     </div>
 
     <script>
-        // State
-        let isLoading = false;
-        let messages = [];
-
-        // Elements
-        const chatContainer = document.getElementById('chatContainer');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const emptyState = document.getElementById('emptyState');
-        const countrySelect = document.getElementById('countrySelect');
-        const periodSelect = document.getElementById('periodSelect');
-        const periodBadge = document.getElementById('currentPeriodBadge');
-
-        // Agent personas for the multi-agent system
-        const agents = {
-            dataAnalyst: {
-                name: 'Data Analyst',
-                icon: '📊',
-                color: '#3B82F6'
-            },
-            competitive: {
-                name: 'Competitive Intel',
-                icon: '⚔️',
-                color: '#F97316'
-            },
-            market: {
-                name: 'Market Analyst',
-                icon: '📈',
-                color: '#8B5CF6'
-            },
-            scientist: {
-                name: 'Sr Data Scientist',
-                icon: '🔬',
-                color: '#10B981'
-            },
-            mckinsey: {
-                name: 'McKinsey Expert',
-                icon: '🎯',
-                color: '#EAB308'
-            }
-        };
-
-        // Sample responses based on question types
-        const sampleResponses = {
-            'market share': {
-                response: `Based on the STARLA RTD report for Germany P7 2025:
-
-**Starbucks RTD Market Share: 15.3%**
-
-This represents a **+2.3 percentage point gain** versus P7 2024, driven by:
-
-• **Frappuccino Line**: +18% volume growth
-• **Convenience Channel**: +25% distribution gain
-• **Premium Positioning**: Outperforming value segment 3:1
-
-**Competitive Context:**
-- Monster Energy RTD: 22.1% (-0.5pp)
-- Red Bull (incl. Organics): 18.7% (+0.8pp)
-- Costa Coffee RTD: 8.2% (+1.1pp)
-
-*Source: STARLA_RTD - 2025 - P7 - Germany.pdf*`,
-                validations: ['data-scientist', 'mckinsey']
-            },
-            'monster': {
-                response: `**Monster Performance Analysis - Germany P7 2025**
-
-Monster Energy shows mixed signals in the German RTD market:
-
-**Key Metrics:**
-• Market Share: 22.1% (down 0.5pp YoY)
-• Volume: -2.3% vs P7 2024
-• Distribution: +18% in convenience (aggressive expansion)
-
-**Strategic Implications for Starbucks:**
-1. Monster is trading share for distribution - value play
-2. Their convenience push directly threatens our on-the-go occasions
-3. However, their pricing pressure may commoditize the energy segment
-
-**Recommended Response:**
-Focus on premium differentiation and coffee occasion rather than competing on energy positioning.
-
-*Source: STARLA_RTD - 2025 - P7 - Germany.pdf, Competitive Section*`,
-                validations: ['data-scientist']
-            },
-            'investment': {
-                response: `**Strategic Investment Recommendations - EMEA RTD Portfolio**
-
-Based on comprehensive STARLA analysis across all markets, here are the validated investment priorities:
-
-**🔴 PRIORITY 1: Germany Convenience Channel**
-- Current gap: 15pp below optimal distribution
-- Investment: +20% trade marketing
-- Expected ROI: 3.2x (12-month)
-- Confidence: HIGH
-
-**🟡 PRIORITY 2: Nordic Expansion**
-- Markets: Sweden, Norway, Denmark
-- Opportunity: Premium RTD under-penetrated
-- Investment: €500K pilot
-- Expected ROI: 2.1x (18-month)
-- Confidence: MEDIUM
-
-**🟢 PRIORITY 3: UK Frappuccino Innovation**
-- New flavor launch to defend against Costa
-- Investment: £300K marketing
-- Expected ROI: 2.8x (9-month)
-- Confidence: HIGH
-
-*Validated by Sr Data Scientist & McKinsey Expert Partner*`,
-                validations: ['data-scientist', 'mckinsey']
-            }
-        };
-
-        // Update period badge
-        function updatePeriodBadge() {
-            const country = countrySelect.options[countrySelect.selectedIndex].text;
-            const period = periodSelect.options[periodSelect.selectedIndex].text;
-            periodBadge.textContent = `📊 ${period} • ${country}`;
-        }
-
-        countrySelect.addEventListener('change', updatePeriodBadge);
-        periodSelect.addEventListener('change', updatePeriodBadge);
-
-        // Auto-resize textarea
-        chatInput.addEventListener('input', function () {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
-
-        // Handle Enter key
-        chatInput.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // Ask preset question
         function askQuestion(question) {
-            chatInput.value = question;
-            sendMessage();
+            const input = document.querySelector('.search-input input');
+            input.value = question;
+            input.focus();
         }
 
-        // Send message
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message || isLoading) return;
+        // Update period badge when selectors change
+        document.getElementById('countrySelect').addEventListener('change', updateBadge);
+        document.getElementById('periodSelect').addEventListener('change', updateBadge);
 
-            // Hide empty state
-            emptyState.style.display = 'none';
-
-            // Add user message
-            addMessage(message, 'user');
-            chatInput.value = '';
-            chatInput.style.height = 'auto';
-
-            // Show typing indicator
-            isLoading = true;
-            sendBtn.disabled = true;
-            showTypingIndicator();
-
-            // Simulate agent workflow and response
-            setTimeout(() => {
-                hideTypingIndicator();
-
-                // Determine response type
-                let responseData;
-                const lowerMessage = message.toLowerCase();
-
-                if (lowerMessage.includes('market share') || lowerMessage.includes('share')) {
-                    responseData = sampleResponses['market share'];
-                } else if (lowerMessage.includes('monster') || lowerMessage.includes('competitor')) {
-                    responseData = sampleResponses['monster'];
-                } else if (lowerMessage.includes('invest') || lowerMessage.includes('focus') || lowerMessage.includes('opportunity')) {
-                    responseData = sampleResponses['investment'];
-                } else {
-                    // Default response
-                    responseData = {
-                        response: `I've analyzed the STARLA RTD reports for your query about "${message}".
-
-To provide accurate insights, I'm searching across the ${countrySelect.options[countrySelect.selectedIndex].text} data for ${periodSelect.options[periodSelect.selectedIndex].text}.
-
-**Key Finding:** The data shows [specific metrics will be extracted from PDF analysis].
-
-This insight has been validated by our Sr Data Scientist for accuracy and our McKinsey Expert for strategic relevance.
-
-*Would you like me to dive deeper into any specific aspect?*`,
-                        validations: ['data-scientist']
-                    };
-                }
-
-                addMessage(responseData.response, 'agent', responseData.validations);
-                isLoading = false;
-                sendBtn.disabled = false;
-            }, 2000);
-        }
-
-        // Add message to chat
-        function addMessage(content, type, validations = []) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-
-            const avatar = type === 'user' ? '👤' : '☕';
-
-            let validationHTML = '';
-            if (validations.length > 0) {
-                validationHTML = '<div class="validation-badges">';
-                if (validations.includes('data-scientist')) {
-                    validationHTML += '<span class="validation-badge data-scientist">✓ Sr Data Scientist</span>';
-                }
-                if (validations.includes('mckinsey')) {
-                    validationHTML += '<span class="validation-badge mckinsey">✓ McKinsey Expert</span>';
-                }
-                validationHTML += '</div>';
-            }
-
-            // Convert markdown-like formatting
-            let formattedContent = content
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>')
-                .replace(/• /g, '&bull; ');
-
-            messageDiv.innerHTML = `
-                <div class="message-avatar ${type}">${avatar}</div>
-                <div class="message-content">
-                    ${formattedContent}
-                    ${validationHTML}
-                </div>
-            `;
-
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        // Show typing indicator
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.id = 'typingIndicator';
-            typingDiv.className = 'message agent';
-            typingDiv.innerHTML = `
-                <div class="message-avatar agent">☕</div>
-                <div class="message-content">
-                    <div class="agent-workflow">
-                        <span class="agent-step completed">📊 Data Analyst</span>
-                        <span class="agent-connector completed"></span>
-                        <span class="agent-step active">🔬 Validating</span>
-                        <span class="agent-connector"></span>
-                        <span class="agent-step">🎯 Strategy Review</span>
-                    </div>
-                    <div class="typing-indicator">
-                        <span class="typing-dot"></span>
-                        <span class="typing-dot"></span>
-                        <span class="typing-dot"></span>
-                    </div>
-                </div>
-            `;
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        // Hide typing indicator
-        function hideTypingIndicator() {
-            const typingDiv = document.getElementById('typingIndicator');
-            if (typingDiv) typingDiv.remove();
+        function updateBadge() {
+            const country = document.getElementById('countrySelect');
+            const period = document.getElementById('periodSelect');
+            const badge = document.querySelector('.period-badge');
+            badge.textContent = `📊 ${period.options[period.selectedIndex].text} • ${country.options[country.selectedIndex].text}`;
         }
     </script>
 </body>
