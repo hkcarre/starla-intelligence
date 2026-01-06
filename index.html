@@ -194,7 +194,8 @@
         .main-content {
             display: grid;
             grid-template-columns: 400px 1fr;
-            gap: 24px;
+            gap: 64px;
+            /* Increased separation */
             padding: 12px 32px 32px 32px;
             height: calc(100vh - 140px);
         }
@@ -1027,7 +1028,10 @@
                 updateBadge();
                 updateInsights(countrySelect.value);
             });
-            periodSelect.addEventListener('change', updateBadge);
+            periodSelect.addEventListener('change', () => {
+                updateBadge();
+                updateInsights();
+            });
 
             chatInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleUserMessage();
@@ -1041,7 +1045,26 @@
         }
 
         function updateInsights(countryKey) {
-            const data = DEMO_DATA[countryKey] || DEFAULT_DATA;
+            const periodKey = periodSelect.value;
+            countryKey = countryKey || countrySelect.value;
+
+            // Start with base data
+            let data = { ...(DEMO_DATA[countryKey] || DEFAULT_DATA) };
+
+            // Simulate Data Variation based on Period/Year for Demo
+            if (periodKey !== 'p7-2025') {
+                if (periodKey === 'p8-2025' || periodKey.includes('2026')) {
+                    // Future/Projection: Better numbers
+                    data.share = (parseFloat(data.share) + 0.4).toFixed(1) + '%';
+                    data.change = '+' + (parseFloat(data.change) + 0.5).toFixed(1) + 'pp';
+                    data.insight = data.insight.replace('increased', 'is projected to surge');
+                } else {
+                    // Past/Different Period: Slightly lower
+                    data.share = (parseFloat(data.share) - 0.2).toFixed(1) + '%';
+                    data.change = '+' + (parseFloat(data.change) - 0.1).toFixed(1) + 'pp';
+                    data.insight = "Performance was stable, with minor fluctuations in key accounts.";
+                }
+            }
 
             // Update Market Share Card
             const shareCard = document.querySelector('.insight-card:nth-child(1)');
