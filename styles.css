@@ -1,0 +1,498 @@
+/* STARLA Intelligence Platform - Shared Styles */
+/* Starbucks Brand Guidelines + OptiaData */
+
+:root {
+    /* Starbucks Brand Colors */
+    --starbucks-green: #00704A;
+    --starbucks-green-light: #1E9E6B;
+    --starbucks-green-dark: #00553A;
+    --starbucks-gold: #D4A86C;
+    --starbucks-cream: #F2F0EB;
+    --starbucks-black: #1E1E1E;
+    
+    /* UI Colors */
+    --bg-primary: #0A0F1C;
+    --bg-secondary: #111827;
+    --bg-card: rgba(17, 24, 39, 0.8);
+    --bg-card-hover: rgba(30, 41, 59, 0.9);
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --text-muted: #6B7280;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-glow: rgba(0, 112, 74, 0.3);
+    
+    /* Agent Colors */
+    --agent-data: #3B82F6;
+    --agent-competitive: #F97316;
+    --agent-market: #8B5CF6;
+    --agent-scientist: #10B981;
+    --agent-mckinsey: #EAB308;
+    
+    /* Status Colors */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --info: #3B82F6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Effects */
+.bg-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 112, 74, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(212, 168, 108, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(0, 112, 74, 0.1), transparent);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: rgba(10, 15, 28, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 100;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.starbucks-logo {
+    width: 48px;
+    height: 48px;
+    background: var(--starbucks-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    font-weight: 700;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.brand-sub {
+    font-size: 12px;
+    color: var(--starbucks-gold);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-tab {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+.nav-tab.active {
+    color: white;
+    background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
+}
+
+.powered-by {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.powered-by span {
+    color: var(--starbucks-gold);
+    font-weight: 600;
+}
+
+/* Main Container */
+.main-container {
+    padding-top: 72px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* Selector Bar */
+.selector-bar {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.selector-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.selector-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.custom-select {
+    appearance: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 40px 10px 16px;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    min-width: 160px;
+    transition: all 0.2s ease;
+}
+
+.custom-select:hover {
+    border-color: var(--starbucks-green);
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: var(--starbucks-green);
+    box-shadow: 0 0 0 3px var(--border-glow);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-secondary);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 112, 74, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--starbucks-gold);
+    border: 1px solid var(--starbucks-gold);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary:hover {
+    background: rgba(212, 168, 108, 0.1);
+}
+
+.btn-generate {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-generate:hover {
+    border-color: var(--starbucks-green);
+    background: var(--bg-card-hover);
+}
+
+/* Commentary Container */
+.commentary-container {
+    padding: 24px 32px;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* Commentary Section */
+.commentary-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+}
+
+.section-header h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-content {
+    padding: 24px;
+}
+
+.generated-text {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.generated-text p {
+    margin-bottom: 12px;
+}
+
+.generated-text p:last-child {
+    margin-bottom: 0;
+}
+
+.strategic-question {
+    background: rgba(234, 179, 8, 0.1);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--agent-mckinsey);
+    font-weight: 500;
+    margin-top: 16px;
+}
+
+/* Validation Row */
+.validation-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.validation-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.validation-badge.data-scientist {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--agent-scientist);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.validation-badge.mckinsey {
+    background: rgba(234, 179, 8, 0.15);
+    color: var(--agent-mckinsey);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+/* Questions Grid */
+.questions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 16px;
+    padding: 24px;
+}
+
+.question-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+    transition: all 0.2s ease;
+}
+
+.question-card:hover {
+    border-color: var(--border-glow);
+}
+
+.question-card.highlight {
+    border-color: rgba(0, 112, 74, 0.5);
+    background: linear-gradient(135deg, rgba(0, 112, 74, 0.1), transparent);
+}
+
+.question-category {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--starbucks-green-light);
+    margin-bottom: 8px;
+}
+
+.question-text {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.question-text em {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.answer-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 60px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.answer-box.filled {
+    color: var(--text-primary);
+    border-color: var(--starbucks-green);
+}
+
+/* Country Selector in Section */
+.country-selector {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        padding: 0 16px;
+    }
+    
+    .nav-tabs {
+        display: none;
+    }
+    
+    .selector-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .questions-grid {
+        grid-template-columns: 1fr;
+    }
+}

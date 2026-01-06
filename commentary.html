@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Commentary | STARLA Intelligence Platform</title>
+    <meta name="description" content="Monthly RTD market commentary for Starbucks EMEA">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --starbucks-green: #00704A;
+            --starbucks-green-light: #1E9E6B;
+            --starbucks-green-dark: #00553A;
+            --starbucks-gold: #D4A86C;
+            --bg-primary: #0A0F1C;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.8);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --text-primary: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-glow: rgba(0, 112, 74, 0.3);
+            --agent-scientist: #10B981;
+            --agent-mckinsey: #EAB308;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 112, 74, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(212, 168, 108, 0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 80%, rgba(0, 112, 74, 0.1), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(10, 15, 28, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .starbucks-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--starbucks-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: var(--starbucks-gold);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .nav-tab.active {
+            color: white;
+            background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
+        }
+
+        .powered-by {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .powered-by span {
+            color: var(--starbucks-gold);
+            font-weight: 600;
+        }
+
+        .main-container {
+            padding-top: 72px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .selector-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .selector-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .selector-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .custom-select {
+            appearance: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 40px 10px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            min-width: 160px;
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: var(--starbucks-green);
+            box-shadow: 0 0 0 3px var(--border-glow);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 112, 74, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--starbucks-gold);
+            border: 1px solid var(--starbucks-gold);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212, 168, 108, 0.1);
+        }
+
+        .btn-generate {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-generate:hover {
+            border-color: var(--starbucks-green);
+        }
+
+        .commentary-container {
+            padding: 24px 32px;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .commentary-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+        }
+
+        .section-header h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding: 24px;
+        }
+
+        .generated-text {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .generated-text p {
+            margin-bottom: 12px;
+        }
+
+        .generated-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .strategic-question {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--agent-mckinsey);
+            font-weight: 500;
+            margin-top: 16px;
+        }
+
+        .validation-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .validation-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .validation-badge.data-scientist {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--agent-scientist);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .validation-badge.mckinsey {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--agent-mckinsey);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 16px;
+            padding: 24px;
+        }
+
+        .question-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .question-card:hover {
+            border-color: var(--border-glow);
+        }
+
+        .question-card.highlight {
+            border-color: rgba(0, 112, 74, 0.5);
+            background: linear-gradient(135deg, rgba(0, 112, 74, 0.1), transparent);
+        }
+
+        .question-category {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--starbucks-green-light);
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .question-text em {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .answer-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 60px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .answer-box.filled {
+            color: var(--text-primary);
+            border-color: var(--starbucks-green);
+        }
+
+        .country-selector {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .period-badge {
+            background: linear-gradient(135deg, var(--starbucks-green), var(--starbucks-green-light));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 16px;
+            }
+
+            .nav-tabs {
+                display: none;
+            }
+
+            .selector-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .questions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <header class="header">
+        <div class="logo-section">
+            <div class="starbucks-logo">☕</div>
+            <div class="brand-text">
+                <span class="brand-name">STARLA Intelligence</span>
+                <span class="brand-sub">RTD Market Analytics</span>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <a href="index.html" class="nav-tab">Dashboard</a>
+            <a href="commentary.html" class="nav-tab active">Monthly Commentary</a>
+        </nav>
+        <div class="powered-by">
+            Powered by <span>OptiaData</span>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="selector-bar">
+            <div class="selector-group">
+                <span class="selector-label">Reporting Period</span>
+                <select class="custom-select" id="periodSelect">
+                    <option value="p9-2025" selected>P9 2025</option>
+                    <option value="p8-2025">P8 2025</option>
+                    <option value="p7-2025">P7 2025</option>
+                </select>
+                <div class="period-badge" id="periodBadge">📋 P9 2025 Commentary</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="generateAllCommentary()">
+                    🔄 Generate All Commentary
+                </button>
+                <button class="btn-secondary" onclick="downloadReport()">
+                    📥 Download Report
+                </button>
+            </div>
+        </div>
+
+        <div class="commentary-container">
+            <!-- Executive Summary -->
+            <section class="commentary-section">
+                <div class="section-header">
+                    <h2>📋 Executive Summary</h2>
+                    <button class="btn-generate" onclick="generateSection('summary')">Generate</button>
+                </div>
+                <div class="section-content">
+                    <div class="generated-text" id="summary-text">
+                        <p><strong>RTD Data: P9 2025 (ending 7.09.25)</strong></p>
+                        <p>Starbucks RTD value sales reached €49.8m, a share of 21.5% (-160 bps vs LY), 4WK ending.
+                            Maintaining brand share leadership but share continuing to decline over the longer period
+                            12WK (21.7%, -200bps vs LY) and MAT (22.7, -200bps vs LY). Starbucks sales reached an
+                            estimated €490.8m MAT primarily driven by Unit ROS. However, distribution is declining
+                            driven by Denmark, Saudi and Turkey.</p>
+                        <p>Over the last 52 wks Nescafe continues to be the biggest gainer in share (+390bps) and is
+                            showing increasing share momentum. In the last 12 months, Nescafe has also contributed the
+                            most value to the category (+€108.7m), followed by Private label (+€76.7m), and Starbucks
+                            (+€25.0m).</p>
+                        <p><strong>Removal of Turkey from the data:</strong></p>
+                        <p>Starbucks value sales reached €48.3m, a share of 26.6% (00 bps vs LY), 4WK ending. Over the
+                            longer period, share change continues to soften, 12WK (26.6%, -60bps vs LY), and MAT (26.7%,
+                            -70bps vs LY). Nescafe continues to be the biggest branded share gainer though private label
+                            has contributed most value to category growth (+€67.4m MAT).</p>
+                        <p><strong>Key Watch:</strong> Frappuccino is showing declines in value sales MAT and L12wks but
+                            showing an uptick in last 4 weeks but as our 2nd biggest platform we need to understand why
+                            sales have been a challenge.</p>
+                        <p class="strategic-question">❓ Given Nescafe's growing threat as well as the rise of Private
+                            Label, are we doing enough to defend our position and drive growth? (Note: 16 markets only).
+                        </p>
+                    </div>
+                    <div class="validation-row">
+                        <span class="validation-badge data-scientist">✓ Sr Data Scientist</span>
+                        <span class="validation-badge mckinsey">✓ McKinsey Expert</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Total EMEA -->
+            <section class="commentary-section">
+                <div class="section-header">
+                    <h2>🌍 Total EMEA</h2>
+                    <button class="btn-generate" onclick="generateSection('emea')">Generate All</button>
+                </div>
+                <div class="questions-grid" id="emea-questions">
+                    <div class="question-card">
+                        <div class="question-category">Category Performance</div>
+                        <div class="question-text">What is the total RTD coffee in value, volume – MAT, L12wks, L4wks?
+                        </div>
+                        <div class="answer-box" id="emea-q1"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Category Growth</div>
+                        <div class="question-text">What is the total growth for RTD coffee in value, volume – MAT,
+                            L12wks, L4wks?</div>
+                        <div class="answer-box" id="emea-q2"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">YoY Comparison</div>
+                        <div class="question-text">How has this changed vs this same period last year?</div>
+                        <div class="answer-box" id="emea-q3"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">MoM Comparison</div>
+                        <div class="question-text">How has this changed vs last month?</div>
+                        <div class="answer-box" id="emea-q4"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Starbucks Performance</div>
+                        <div class="question-text">What is the total Starbucks' (Arla) in value, volume – MAT, L12wks,
+                            L4wks?</div>
+                        <div class="answer-box" id="emea-q5"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Starbucks Growth</div>
+                        <div class="question-text">What is the total growth for Starbucks' (Arla) in value, volume –
+                            MAT, L12wks, L4wks?</div>
+                        <div class="answer-box" id="emea-q6"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Brand Drivers</div>
+                        <div class="question-text">Which brands are driving the most growth in the RTD category? – MAT,
+                            L12wks, L4wks?</div>
+                        <div class="answer-box" id="emea-q7"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Brand Contribution</div>
+                        <div class="question-text">What is the contribution of each brand to total category growth? –
+                            MAT, L12wks, L4wks?</div>
+                        <div class="answer-box" id="emea-q8"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Country Performance</div>
+                        <div class="question-text">Which countries are showing the highest and lowest growth in RTD
+                            coffee sales?</div>
+                        <div class="answer-box" id="emea-q9"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Starbucks vs Market</div>
+                        <div class="question-text">How is Starbucks performing in each country compared to the total RTD
+                            market?</div>
+                        <div class="answer-box" id="emea-q10"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Share Movement</div>
+                        <div class="question-text">Which countries is Starbucks gaining or losing share? – MAT, L12wks,
+                            L4wks?</div>
+                        <div class="answer-box" id="emea-q11"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Share Trend</div>
+                        <div class="question-text">How is Starbucks' value share and share point change trending over
+                            time?</div>
+                        <div class="answer-box" id="emea-q12"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Competitive Ranking</div>
+                        <div class="question-text">How does Starbucks rank vs competitors like Nescafé, Emmi, etc.?
+                        </div>
+                        <div class="answer-box" id="emea-q13"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Performance Drivers</div>
+                        <div class="question-text">What is the impact of price, distribution, unit sales on Starbucks'
+                            performance?</div>
+                        <div class="answer-box" id="emea-q14"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Format Analysis</div>
+                        <div class="question-text">Which product formats are driving the most value?</div>
+                        <div class="answer-box" id="emea-q15"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EMEA ex-Turkey -->
+            <section class="commentary-section">
+                <div class="section-header">
+                    <h2>🌍 Total EMEA (Excl. Turkey)</h2>
+                    <button class="btn-generate" onclick="generateSection('emea-ex-turkey')">Generate All</button>
+                </div>
+                <div class="questions-grid">
+                    <div class="question-card">
+                        <div class="question-category">Category Performance</div>
+                        <div class="question-text">What is the total RTD coffee in value, volume – MAT, L12wks, L4wks?
+                        </div>
+                        <div class="answer-box" id="exturkey-q1"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Category Growth</div>
+                        <div class="question-text">What is the total growth for RTD coffee in value, volume?</div>
+                        <div class="answer-box" id="exturkey-q2"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Starbucks Performance</div>
+                        <div class="question-text">What is the total Starbucks' (Arla) in value, volume?</div>
+                        <div class="answer-box" id="exturkey-q3"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Starbucks Growth</div>
+                        <div class="question-text">What is the total growth for Starbucks' (Arla)?</div>
+                        <div class="answer-box" id="exturkey-q4"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Brand Drivers</div>
+                        <div class="question-text">Which brands are driving the most growth?</div>
+                        <div class="answer-box" id="exturkey-q5"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Share Movement</div>
+                        <div class="question-text">Which countries is Starbucks gaining or losing share?</div>
+                        <div class="answer-box" id="exturkey-q6"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Country Level -->
+            <section class="commentary-section">
+                <div class="section-header">
+                    <h2>🏳️ Country Level Analysis (16 Markets)</h2>
+                    <div class="country-selector">
+                        <select class="custom-select" id="countrySelect">
+                            <option value="all">All Countries</option>
+                            <option value="germany">Germany</option>
+                            <option value="uk">United Kingdom</option>
+                            <option value="italy">Italy</option>
+                            <option value="spain">Spain</option>
+                            <option value="netherlands">Netherlands</option>
+                            <option value="poland">Poland</option>
+                            <option value="sweden">Sweden</option>
+                            <option value="austria">Austria</option>
+                            <option value="switzerland">Switzerland</option>
+                            <option value="denmark">Denmark</option>
+                            <option value="norway">Norway</option>
+                            <option value="greece">Greece</option>
+                            <option value="croatia">Croatia</option>
+                            <option value="turkey">Turkey</option>
+                            <option value="uae">UAE</option>
+                            <option value="saudi">Saudi Arabia</option>
+                        </select>
+                        <button class="btn-generate" onclick="generateSection('countries')">Generate</button>
+                    </div>
+                </div>
+                <div class="questions-grid">
+                    <div class="question-card highlight">
+                        <div class="question-category">Value Sales</div>
+                        <div class="question-text">What is Starbucks' total value sales and how has it changed MAT,
+                            L12wks, L4wks?</div>
+                        <div class="answer-box" id="country-q1"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Share vs Competitors</div>
+                        <div class="question-text">How does Starbucks' market share change compare to competitors?</div>
+                        <div class="answer-box" id="country-q2"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Relative Growth</div>
+                        <div class="question-text">Is Starbucks growing faster or slower than the total RTD coffee
+                            market?</div>
+                        <div class="answer-box" id="country-q3"></div>
+                    </div>
+                    <div class="question-card highlight">
+                        <div class="question-category">Platform Performance</div>
+                        <div class="question-text">Which Starbucks platforms are driving growth or
+                            decline?<br><em>(Chilled Classic, Daily Brew, Energy, Frappuccino, Multiserve, Protein)</em>
+                        </div>
+                        <div class="answer-box" id="country-q4"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-category">Distribution</div>
+                        <div class="question-text">Which brands are gaining and losing in distribution?</div>
+                        <div class="answer-box" id="country-q5"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="commentary.js"></script>
+</body>
+
+</html>
