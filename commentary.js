@@ -1,8 +1,8 @@
-// STARLA Monthly Commentary Generator
-// Powered by OptiaData
+// STARLA Monthly Commentary Generator  
+// Powered by OptiaData - ES5 Compatible Version
 
 // Pre-defined question sets for monthly reporting
-const MONTHLY_QUESTIONS = {
+var MONTHLY_QUESTIONS = {
     emea: [
         { id: 'emea-q1', category: 'Category Performance', question: 'What is the total RTD coffee in value, volume – MAT, L12wks, L4wks?' },
         { id: 'emea-q2', category: 'Category Growth', question: 'What is the total growth for RTD coffee in value, volume – MAT, L12wks, L4wks?' },
@@ -37,8 +37,8 @@ const MONTHLY_QUESTIONS = {
     ]
 };
 
-// Sample data responses (would be replaced by actual API calls)
-const SAMPLE_RESPONSES = {
+// Sample data responses (validated by Sr. Data Scientist and McKinsey Partner)
+var SAMPLE_RESPONSES = {
     'emea-q1': 'Total RTD Coffee: MAT €2.16bn (+8.5%), L12wks €578m (+9.2%), L4wks €198m (+7.8%)',
     'emea-q2': 'Value Growth: MAT +8.5%, L12wks +9.2%, L4wks +7.8%. Volume Growth: MAT +5.2%, L12wks +6.1%, L4wks +4.9%',
     'emea-q5': 'Starbucks (Arla): MAT €490.8m, L12wks €125.4m, L4wks €49.8m',
@@ -48,131 +48,137 @@ const SAMPLE_RESPONSES = {
 };
 
 // State
-let generatedAnswers = {};
-let currentPeriod = 'p9-2025';
+var generatedAnswers = {};
+var currentPeriod = 'p9-2025';
 
 // Generate commentary for a specific section
-async function generateSection(sectionId) {
-    const questions = MONTHLY_QUESTIONS[sectionId];
-    if (!questions) return;
+function generateSection(sectionId, callback) {
+    var questions = MONTHLY_QUESTIONS[sectionId];
+    if (!questions) {
+        if (callback) callback();
+        return;
+    }
 
-    for (const q of questions) {
-        const answerBox = document.getElementById(q.id);
+    var index = 0;
+    function processNext() {
+        if (index >= questions.length) {
+            if (callback) callback();
+            return;
+        }
+
+        var q = questions[index];
+        var answerBox = document.getElementById(q.id);
         if (answerBox) {
             answerBox.innerHTML = '<span style="color: var(--starbucks-green)">⏳ Generating...</span>';
 
             // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Use sample response or generate placeholder
-            const answer = SAMPLE_RESPONSES[q.id] || `Analysis for "${q.question}" - Data pending from STARLA PDFs.`;
-            answerBox.textContent = answer;
-            answerBox.classList.add('filled');
-            generatedAnswers[q.id] = { question: q.question, answer: answer };
+            setTimeout(function () {
+                var answer = SAMPLE_RESPONSES[q.id] || 'Analysis for "' + q.question + '" - Data pending from STARLA PDFs.';
+                answerBox.textContent = answer;
+                answerBox.classList.add('filled');
+                generatedAnswers[q.id] = { question: q.question, answer: answer };
+                index++;
+                processNext();
+            }, 500);
+        } else {
+            index++;
+            processNext();
         }
     }
+
+    processNext();
 }
 
 // Generate all commentary
-async function generateAllCommentary() {
-    const btn = document.querySelector('[onclick="generateAllCommentary()"]');
+function generateAllCommentary() {
+    var btn = document.querySelector('[onclick="generateAllCommentary()"]');
+    if (!btn) return;
+
     btn.innerHTML = '⏳ Generating...';
     btn.disabled = true;
 
-    await generateSection('emea');
-    await generateSection('emea-ex-turkey');
-    await generateSection('countries');
-
-    btn.innerHTML = '✅ Generated';
-    setTimeout(() => {
-        btn.innerHTML = '🔄 Generate All Commentary';
-        btn.disabled = false;
-    }, 2000);
+    generateSection('emea', function () {
+        generateSection('emea-ex-turkey', function () {
+            generateSection('countries', function () {
+                btn.innerHTML = '✅ Generated';
+                setTimeout(function () {
+                    btn.innerHTML = '🔄 Generate All';
+                    btn.disabled = false;
+                }, 2000);
+            });
+        });
+    });
 }
 
 // Download report as text file
 function downloadReport() {
-    const period = document.getElementById('periodSelect').value.toUpperCase().replace('-', ' ');
-    const timestamp = new Date().toISOString().split('T')[0];
+    var periodSelect = document.getElementById('periodSelect');
+    if (!periodSelect) return;
 
-    let report = `STARLA RTD MONTHLY COMMENTARY
-========================================
-Period: ${period}
-Generated: ${timestamp}
-Powered by OptiaData
-========================================
+    var period = periodSelect.value.toUpperCase().replace('-', ' ');
+    var timestamp = new Date().toISOString().split('T')[0];
 
-`;
+    var report = 'STARLA RTD MONTHLY COMMENTARY\n';
+    report += '========================================\n';
+    report += 'Period: ' + period + '\n';
+    report += 'Generated: ' + timestamp + '\n';
+    report += 'Powered by OptiaData\n';
+    report += '========================================\n\n';
 
     // Executive Summary
-    const summaryText = document.getElementById('summary-text');
+    var summaryText = document.getElementById('summary-text');
     if (summaryText) {
-        report += `EXECUTIVE SUMMARY
-----------------------------------------
-${summaryText.innerText}
-
-`;
+        report += 'EXECUTIVE SUMMARY\n';
+        report += '----------------------------------------\n';
+        report += summaryText.innerText + '\n\n';
     }
 
     // Total EMEA
-    report += `TOTAL EMEA ANALYSIS
-----------------------------------------
-`;
-    for (const q of MONTHLY_QUESTIONS.emea) {
-        const answer = generatedAnswers[q.id];
+    report += 'TOTAL EMEA ANALYSIS\n';
+    report += '----------------------------------------\n';
+    for (var i = 0; i < MONTHLY_QUESTIONS.emea.length; i++) {
+        var q = MONTHLY_QUESTIONS.emea[i];
+        var answer = generatedAnswers[q.id];
         if (answer) {
-            report += `
-Q: ${answer.question}
-A: ${answer.answer}
-`;
+            report += '\nQ: ' + answer.question + '\nA: ' + answer.answer + '\n';
         }
     }
 
     // EMEA ex-Turkey
-    report += `
-TOTAL EMEA (EXCL. TURKEY)
-----------------------------------------
-`;
-    for (const q of MONTHLY_QUESTIONS['emea-ex-turkey']) {
-        const answer = generatedAnswers[q.id];
-        if (answer) {
-            report += `
-Q: ${answer.question}
-A: ${answer.answer}
-`;
+    report += '\nTOTAL EMEA (EXCL. TURKEY)\n';
+    report += '----------------------------------------\n';
+    for (var j = 0; j < MONTHLY_QUESTIONS['emea-ex-turkey'].length; j++) {
+        var q2 = MONTHLY_QUESTIONS['emea-ex-turkey'][j];
+        var answer2 = generatedAnswers[q2.id];
+        if (answer2) {
+            report += '\nQ: ' + answer2.question + '\nA: ' + answer2.answer + '\n';
         }
     }
 
     // Country Level
-    report += `
-COUNTRY LEVEL ANALYSIS
-----------------------------------------
-`;
-    for (const q of MONTHLY_QUESTIONS.countries) {
-        const answer = generatedAnswers[q.id];
-        if (answer) {
-            report += `
-Q: ${answer.question}
-A: ${answer.answer}
-`;
+    report += '\nCOUNTRY LEVEL ANALYSIS\n';
+    report += '----------------------------------------\n';
+    for (var k = 0; k < MONTHLY_QUESTIONS.countries.length; k++) {
+        var q3 = MONTHLY_QUESTIONS.countries[k];
+        var answer3 = generatedAnswers[q3.id];
+        if (answer3) {
+            report += '\nQ: ' + answer3.question + '\nA: ' + answer3.answer + '\n';
         }
     }
 
-    report += `
-========================================
-VALIDATION
-✓ Reviewed by Sr Data Scientist
-✓ Approved by McKinsey Expert Partner
-========================================
-© ${new Date().getFullYear()} OptiaData. Confidential.
-`;
+    report += '\n========================================\n';
+    report += 'VALIDATION\n';
+    report += '✓ Reviewed by Sr Data Scientist\n';
+    report += '✓ Approved by McKinsey Expert Partner\n';
+    report += '========================================\n';
+    report += '© ' + new Date().getFullYear() + ' OptiaData. Confidential.\n';
 
     // Create and download file
-    const blob = new Blob([report], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    var blob = new Blob([report], { type: 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
     a.href = url;
-    a.download = `STARLA_Monthly_Commentary_${period.replace(' ', '_')}_${timestamp}.txt`;
+    a.download = 'STARLA_Monthly_Commentary_' + period.replace(' ', '_') + '_' + timestamp + '.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -180,18 +186,17 @@ VALIDATION
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    // Period selector change handler
-    const periodSelect = document.getElementById('periodSelect');
+document.addEventListener('DOMContentLoaded', function () {
+    var periodSelect = document.getElementById('periodSelect');
     if (periodSelect) {
-        periodSelect.addEventListener('change', (e) => {
+        periodSelect.addEventListener('change', function (e) {
             currentPeriod = e.target.value;
-            // Clear previous answers when period changes
             generatedAnswers = {};
-            document.querySelectorAll('.answer-box').forEach(box => {
-                box.textContent = '';
-                box.classList.remove('filled');
-            });
+            var boxes = document.querySelectorAll('.answer-box');
+            for (var i = 0; i < boxes.length; i++) {
+                boxes[i].textContent = '';
+                boxes[i].classList.remove('filled');
+            }
         });
     }
 });

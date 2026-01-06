@@ -485,22 +485,39 @@
             document.getElementById('opportunity-text').textContent = d.opportunity;
         });
 
-        // Chat
+        // Suggested Questions - Copilot Style (populate only, don't auto-send)
+        function askQuestion(question) {
+            showView('starla');
+            document.getElementById('chat-input').value = question;
+            document.getElementById('chat-input').focus();
+        }
+
+        // Send Chat Message
+        function sendChat() {
+            var input = document.getElementById('chat-input');
+            var msg = input.value.trim();
+            if (!msg) return;
+
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = '<div class="message-text"><strong>You:</strong> ' + msg + '</div>';
+            document.getElementById('chat-messages').appendChild(msgDiv);
+            input.value = '';
+
+            // Auto response
+            setTimeout(function () {
+                var response = document.createElement('div');
+                response.className = 'message';
+                response.innerHTML = '<div class="message-text"><strong>✦ Starla:</strong> Based on P7 2025 data, I can provide insights on that. Analyzing...</div>';
+                document.getElementById('chat-messages').appendChild(response);
+                document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+            }, 500);
+        }
+
+        // Chat input Enter key
         document.getElementById('chat-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && this.value.trim()) {
-                var msg = document.createElement('div');
-                msg.className = 'message';
-                msg.innerHTML = '<div class="message-text">' + this.value + '</div>';
-                document.getElementById('chat-messages').appendChild(msg);
-                this.value = '';
-
-                // Auto response
-                setTimeout(function () {
-                    var response = document.createElement('div');
-                    response.className = 'message';
-                    response.innerHTML = '<div class="message-text">I understand your question. Let me analyze the data...</div>';
-                    document.getElementById('chat-messages').appendChild(response);
-                }, 500);
+                sendChat();
             }
         });
     </script>
