@@ -540,8 +540,38 @@
             document.getElementById('chat-messages').appendChild(msgDiv);
             input.value = '';
 
-            // Auto response
+            // Generate intelligent response
             setTimeout(function () {
+                var q = msg.toLowerCase();
+                var country = document.getElementById('country-select').value;
+                var countryData = data[country];
+                var countryName = country === 'all' ? 'All EMEA' : country.charAt(0).toUpperCase() + country.slice(1);
+                var responseText = '';
+
+                // Market share questions
+                if (q.includes('market share') || q.includes('share')) {
+                    responseText = 'In <strong>' + countryName + '</strong>, Starbucks RTD holds <strong>' + countryData.share + '</strong> market share (' + countryData.change + '). ' + countryData.insight;
+                }
+                // Competitive questions  
+                else if (q.includes('compet') || q.includes('threat') || q.includes('costa') || q.includes('monster')) {
+                    responseText = '<strong>Competitive Alert:</strong> ' + countryData.alert + ' Our current position: ' + countryData.share + ' (' + countryData.change + ').';
+                }
+                // Growth questions
+                else if (q.includes('growth') || q.includes('opportunit')) {
+                    responseText = '<strong>Growth Opportunity:</strong> ' + countryData.opportunity + ' Current trend: ' + countryData.trend;
+                }
+                // Trend questions
+                else if (q.includes('trend') || q.includes('consumer')) {
+                    responseText = '<strong>Key Trend:</strong> ' + countryData.trend + ' This aligns with our ' + countryData.change + ' performance.';
+                }
+                // Default intelligent response
+                else {
+                    responseText = 'Based on <strong>P7 2025</strong> data for ' + countryName + ':<br><br>' +
+                        '📊 <strong>Market Share:</strong> ' + countryData.share + ' (' + countryData.change + ')<br>' +
+                        '💡 <strong>Key Insight:</strong> ' + countryData.insight + '<br><br>' +
+                        'Would you like me to dive deeper into any specific aspect?';
+                }
+
                 var response = document.createElement('div');
                 response.className = 'message';
                 response.innerHTML = '<div class="message-text"><strong>✦ Starla:</strong> Based on P7 2025 data, I can provide insights on that. Analyzing...</div>';
