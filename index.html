@@ -91,6 +91,34 @@
             font-weight: 400;
         }
 
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: white;
+            background: rgba(0, 112, 74, 0.2);
+            border-color: rgba(0, 112, 74, 0.5);
+            box-shadow: 0 0 10px rgba(0, 112, 74, 0.2);
+        }
+
         .header-right {
             display: flex;
             align-items: center;
@@ -759,6 +787,10 @@
                 <span class="intelligence"> Intelligence</span>
             </div>
         </div>
+        <nav class="nav-tabs">
+            <a href="index.html" class="nav-tab active">Dashboard</a>
+            <a href="commentary.html" class="nav-tab">Monthly Commentary</a>
+        </nav>
         <div class="header-right">
             <div class="powered-by-container">
                 <span class="powered-by-text">Powered by</span>
