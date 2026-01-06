@@ -1,0 +1,223 @@
+    <script>
+        // =============================================
+        // VIEW SWITCHING LOGIC
+        // =============================================
+        function switchView(viewName) {
+            // Remove active from all nav items
+            document.querySelectorAll('.nav-item').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            
+            // Add active to clicked nav item
+            var buttons = document.querySelectorAll('.nav-item');
+            buttons.forEach(function(btn) {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(viewName)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            
+            // Show target view
+            var targetView = document.getElementById('view-' + viewName);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+        }
+
+        // =============================================
+        // ASK QUESTION (Suggestion Buttons)
+        // =============================================
+        function askQuestion(text) {
+            switchView('starla');
+            var input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                sendMessage();
+            }
+        }
+
+        // =============================================
+        // DEMO DATA (Audited for Consistency)
+        // =============================================
+        var DEMO_DATA = {
+            'germany': {
+                share: '15.3%', change: '+2.3pp', changeType: 'positive',
+                insight: 'Starbucks RTD market share increased, outperforming category growth.',
+                alert: 'Monster Energy is increasing promotional spend in the energy segment by 12%.',
+                trend: 'Premium Cold Brew segment shows 25% YoY growth, driven by urban centers.',
+                opportunity: 'Plant-based demand in Berlin +15% YoY.'
+            },
+            'uk': {
+                share: '12.8%', change: '-0.5pp', changeType: 'negative',
+                insight: 'Slight share erosion due to aggressive price competition from Costa.',
+                alert: 'Costa launching new RTD range in convenience stores nationwide.',
+                trend: 'Oat milk variants growing 2x faster than dairy.',
+                opportunity: 'London commuter belt shows high potential for double-shot espresso.'
+            },
+            'all': {
+                share: '14.1%', change: '+1.2pp', changeType: 'positive',
+                insight: 'Overall EMEA performance strong, driven by DACH region gains.',
+                alert: 'New EU sustainability regulations impacting packaging costs.',
+                trend: 'Sugar reduction is the #1 consumer driver across all markets.',
+                opportunity: 'Cross-market expansion of Frappuccino Light SKU.'
+            }
+        };
+
+        var DEFAULT_DATA = DEMO_DATA['all'];
+
+        // =============================================
+        // DOM ELEMENTS
+        // =============================================
+        var chatInput = document.getElementById('chatInput');
+        var chatMessages = document.getElementById('chatContainer');
+        var countrySelect = document.getElementById('countrySelect');
+        var periodSelect = document.getElementById('periodSelect');
+
+        // =============================================
+        // INITIALIZATION
+        // =============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateInsights('germany');
+
+            if (countrySelect) {
+                countrySelect.addEventListener('change', function() {
+                    simulateAgentVerification(countrySelect.value);
+                });
+            }
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') sendMessage();
+                });
+            }
+        });
+
+        // =============================================
+        // AGENT VERIFICATION SIMULATION
+        // =============================================
+        function simulateAgentVerification(country) {
+            var cards = document.querySelectorAll('.insight-card');
+            cards.forEach(function(card) {
+                var badgeContainer = card.querySelector('.validation-badges');
+                if (badgeContainer) {
+                    badgeContainer.innerHTML = '<span class="badge" style="color:var(--text-muted); border:1px solid var(--border-color)">Verifying...</span>';
+                }
+            });
+
+            setTimeout(function() {
+                updateInsights(country);
+            }, 800);
+        }
+
+        function updateInsights(country) {
+            var data = DEMO_DATA[country] || DEFAULT_DATA;
+            
+            updateCard(0, data.share, data.change, data.insight);
+            updateCard(1, null, null, data.alert);
+            updateCard(2, null, null, data.trend);
+            updateCard(3, null, null, data.opportunity);
+        }
+
+        function updateCard(index, value, change, desc) {
+            var cards = document.querySelectorAll('.insight-card');
+            if (cards[index]) {
+                if (value) {
+                    var metricValue = cards[index].querySelector('.metric-value');
+                    if (metricValue) metricValue.textContent = value;
+                }
+                if (change) {
+                    var metricChange = cards[index].querySelector('.metric-change');
+                    if (metricChange) metricChange.textContent = change;
+                }
+                if (desc) {
+                    var insightDesc = cards[index].querySelector('.insight-desc');
+                    if (insightDesc) insightDesc.textContent = desc;
+                }
+                
+                var badgeContainer = cards[index].querySelector('.validation-badges');
+                if (badgeContainer) {
+                    badgeContainer.innerHTML = '<span class="badge scientist">Sr Data Scientist</span><span class="badge mckinsey">McKinsey Expert</span>';
+                }
+            }
+        }
+
+        // =============================================
+        // CHAT FUNCTIONS
+        // =============================================
+        function sendMessage() {
+            var text = chatInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, 'user');
+            chatInput.value = '';
+
+            var typingId = showTypingIndicator();
+
+            setTimeout(function() {
+                removeTypingIndicator(typingId);
+                var response = generateMockResponse(text);
+                addMessage(response, 'agent');
+            }, 1500);
+        }
+
+        function addMessage(text, type) {
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + type;
+            
+            var avatar = document.createElement('div');
+            avatar.className = 'message-avatar ' + type;
+            avatar.innerHTML = '<div class="avatar-icon">' + (type === 'user' ? 'U' : 'S') + '</div>';
+
+            var bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = text;
+            
+            msgDiv.appendChild(avatar);
+            msgDiv.appendChild(bubble);
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            var id = 'typing-' + Date.now();
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.id = id;
+            msgDiv.innerHTML = '<div class="message-avatar agent"><div class="avatar-icon">S</div></div><div class="message-bubble" style="color: var(--text-muted); font-style: italic;">Verifying with Sr. Data Scientist...</div>';
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function generateMockResponse(query) {
+            var lowerQuery = query.toLowerCase();
+            var footer = '<br><br><span style="font-size:11px; color:rgba(0,0,0,0.5);">Verified by Sr. Data Scientist and McKinsey Expert</span>';
+
+            if (lowerQuery.includes('share') || lowerQuery.includes('market')) {
+                return 'Based on P7 2025 data, Starbucks holds a <strong>15.3% value share</strong> in Germany (+2.3pp YoY).' + footer;
+            }
+            if (lowerQuery.includes('q4') || lowerQuery.includes('growth') || lowerQuery.includes('cold foam')) {
+                return 'Projected Q4 growth for Cold Foam is <strong>+18%</strong> driven by Germany and UK convenience channels.' + footer;
+            }
+            if (lowerQuery.includes('labor') || lowerQuery.includes('efficiency')) {
+                return 'Labor efficiency index is at <strong>87.3</strong> (Target: 85). Customer sentiment correlation is <strong>0.72</strong>.' + footer;
+            }
+            if (lowerQuery.includes('supply') || lowerQuery.includes('risk')) {
+                return 'Top 3 risks: <strong>1)</strong> Packaging material delays, <strong>2)</strong> EU regulatory changes, <strong>3)</strong> Cold chain logistics in Italy.' + footer;
+            }
+            if (lowerQuery.includes('seasonal') || lowerQuery.includes('ticket')) {
+                return 'Seasonal launches drive <strong>+12% average ticket size</strong>. Pumpkin Spice leads with <strong>+23%</strong> uplift.' + footer;
+            }
+            return 'I am analyzing the latest P7 reports... One moment please.' + footer;
+        }
+    </script>
+</body>
+</html>
