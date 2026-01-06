@@ -48,14 +48,10 @@
         }
 
         .logo {
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             object-fit: contain;
-            background: white;
-            border-radius: 50%;
-            padding: 0px;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .nav-btn {
@@ -245,7 +241,7 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <img src="assets/starbucks-logo.png" class="logo" onclick="showView('starla')" alt="Starbucks">
+        <img src="assets/starbucks-logo-new.png" class="logo" onclick="showView('starla')" alt="Starbucks">
 
         <button class="nav-btn" onclick="showView('starla')" id="btn-starla">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -330,7 +326,7 @@
                     <div class="chat-messages" id="chat-messages">
                         <div class="message">
                             <div class="message-text">
-                                <strong>âœ¦ Starla:</strong> I'm connected to live EMEA sales data, competitive
+                                <strong>Starla:</strong> I'm connected to live EMEA sales data, competitive
                                 intelligence, and market trends. Ask me anything!
                             </div>
                         </div>
@@ -421,7 +417,7 @@
                                         Develop Premium Oat Milk SKUs</span></div>
                                 <div style="font-size: 14px; color: var(--text-secondary);"><span
                                         id="rec-2-details">Timeline: Q4 2025 |
-                                        Investment: 25% Increase</div>
+                                        Investment: 25% Increase</span></div>
                             </div>
                         </div>
                     </div>
@@ -614,7 +610,7 @@
 
                 var response = document.createElement('div');
                 response.className = 'message';
-                response.innerHTML = '<div class="message-text"><strong>âœ¦ Starla:</strong> ' + responseText + '</div>';
+                response.innerHTML = '<div class="message-text"><strong>Starla:</strong> ' + responseText + '</div>';
                 document.getElementById('chat-messages').appendChild(response);
                 document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
             }, 100);
