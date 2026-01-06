@@ -275,17 +275,73 @@
 
         <!-- View: Ask Starla -->
         <div class="view" id="view-starla">
-            <div class="view-content">
-                <h1 class="view-title">Ask Starla</h1>
-                <div class="chat-panel">
-                    <div class="chat-title">Your AI Assistant</div>
+            <div class="view-content" style="max-width: 900px; margin: 60px auto; text-align: center;">
+                <h1
+                    style="font-family: 'Lora', serif; font-size: 48px; color: var(--house-green); margin-bottom: 16px;">
+                    Good morning. I'm Starla.
+                </h1>
+                <p style="font-size: 20px; color: var(--text-secondary); margin-bottom: 48px;">
+                    Your strategic data assistant. What shall we analyze today?
+                </p>
+
+                <!-- Suggested Questions -->
+                <div
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; text-align: left;">
+                    <button onclick="askQuestion('What is our market share in Germany?')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">📊 Market
+                            Performance</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">What is our market share in Germany?
+                        </div>
+                    </button>
+
+                    <button onclick="askQuestion('Analyze competitive threats in UK market')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">⚠️ Competitive
+                            Intelligence</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Analyze competitive threats in UK
+                            market</div>
+                    </button>
+
+                    <button onclick="askQuestion('What are the top growth opportunities?')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">💡 Growth
+                            Opportunities</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">What are the top growth
+                            opportunities?</div>
+                    </button>
+
+                    <button onclick="askQuestion('Show me consumer trend analysis')"
+                        style="padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
+                        <div style="font-weight: 600; color: var(--house-green); margin-bottom: 8px;">📈 Consumer Trends
+                        </div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Show me consumer trend analysis
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-panel" style="max-width: 100%; text-align: left;">
                     <div class="chat-messages" id="chat-messages">
                         <div class="message">
-                            <div class="message-text">Hello! I'm Starla. How can I help you analyze the data today?
+                            <div class="message-text">
+                                <strong>✦ Starla:</strong> I'm connected to live EMEA sales data, competitive
+                                intelligence, and market trends. Ask me anything!
                             </div>
                         </div>
                     </div>
-                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything...">
+                    <div style="position: relative; margin-top: 16px;">
+                        <input type="text" class="chat-input" id="chat-input"
+                            placeholder="Ask anything about market performance, competitors, trends..."
+                            style="padding-right: 60px;">
+                        <button onclick="sendChat()"
+                            style="position: absolute; right: 8px; top: 8px; width: 40px; height: 40px; border-radius: 50%; background: var(--starbucks-green); border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
