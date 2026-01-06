@@ -7,26 +7,32 @@
     <title>STARLA Intelligence | Starbucks RTD Analytics</title>
     <meta name="description" content="AI-powered market intelligence for Starbucks EMEA Ready-to-Drink business">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Sora:wght@400;600&display=swap"
         rel="stylesheet">
     <style>
         :root {
+            /* Heritage Modern Palette */
+            --bg-oatmeal: #F2F0EB;
+            --house-green: #1E3932;
             --starbucks-green: #00704A;
-            --starbucks-green-light: #1E9E6B;
-            --starbucks-green-glow: rgba(0, 112, 74, 0.5);
-            --starbucks-gold: #CBA258;
-            --starbucks-gold-glow: rgba(203, 162, 88, 0.3);
-            --bg-dark: #080B14;
-            --bg-card: rgba(22, 27, 34, 0.6);
-            --bg-card-hover: rgba(30, 41, 59, 0.7);
-            --bg-input: rgba(13, 17, 23, 0.8);
-            --text-primary: #FFFFFF;
-            --text-secondary: #9CA3AF;
-            --text-muted: #6B7280;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-highlight: rgba(255, 255, 255, 0.15);
+            --sage: #A2C5AC;
+            --gold: #D4AD66;
+            --starbucks-light: #F9FAF9;
+
+            /* Contextual mappings */
+            --bg-main: var(--bg-oatmeal);
+            --bg-card: rgba(255, 255, 255, 0.6);
+            --bg-card-hover: rgba(255, 255, 255, 0.8);
+            --bg-input: #FFFFFF;
+            --text-primary: var(--house-green);
+            --text-secondary: rgba(30, 57, 50, 0.7);
+            --text-muted: rgba(30, 57, 50, 0.5);
+            --border-color: rgba(30, 57, 50, 0.1);
+            --border-highlight: rgba(0, 112, 74, 0.3);
+            --shadow-card: 0 4px 20px rgba(30, 57, 50, 0.08);
+
+            /* Status Colors */
             --teal: #3FB88C;
-            --gold-badge: #CBA258;
             --priority-green: #1F7A3E;
         }
 
@@ -37,21 +43,18 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
             color: var(--text-primary);
             min-height: 100vh;
-            background-image:
-                radial-gradient(circle at 10% 20%, rgba(0, 112, 74, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(203, 162, 88, 0.08) 0%, transparent 40%);
-            background-attachment: fixed;
+            background-image: none;
         }
 
         /* Header */
         .header {
             height: 80px;
-            background: rgba(13, 17, 23, 0.9);
-            backdrop-filter: blur(16px);
+            background: rgba(242, 240, 235, 0.9);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -75,7 +78,7 @@
         }
 
         .brand-title {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Lora', serif;
             font-size: 24px;
             font-weight: 600;
             letter-spacing: -0.5px;
@@ -114,9 +117,9 @@
 
         .nav-tab.active {
             color: white;
-            background: rgba(0, 112, 74, 0.2);
-            border-color: rgba(0, 112, 74, 0.5);
-            box-shadow: 0 0 10px rgba(0, 112, 74, 0.2);
+            background: var(--house-green);
+            border-color: var(--house-green);
+            box-shadow: 0 4px 12px rgba(30, 57, 50, 0.15);
         }
 
         .header-right {
@@ -147,8 +150,8 @@
 
         .user-email {
             font-size: 13px;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            background: rgba(30, 57, 50, 0.05);
             padding: 8px 16px;
             border-radius: 20px;
             border: 1px solid var(--border-color);
@@ -170,7 +173,7 @@
         }
 
         .dropdown {
-            background: rgba(22, 27, 34, 0.8);
+            background: white;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 12px 20px;
@@ -229,12 +232,13 @@
         }
 
         /* Glassmorphism Card Base */
+        /* Glassmorphism Card Base */
         .glass-card {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-card);
         }
 
         /* Chat Panel */
@@ -268,7 +272,7 @@
         }
 
         .chat-title {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Lora', serif;
             font-size: 18px;
             font-weight: 600;
         }
@@ -317,8 +321,8 @@
         }
 
         .message-avatar.user {
-            background: var(--bg-input);
-            color: var(--text-secondary);
+            background: rgba(30, 57, 50, 0.05);
+            color: var(--house-green);
             border: 1px solid var(--border-color);
         }
 
@@ -328,19 +332,22 @@
         }
 
         .message-bubble {
-            background: rgba(30, 41, 59, 0.5);
+            background: #FFFFFF;
             border: 1px solid var(--border-color);
             border-radius: 0 16px 16px 16px;
             padding: 16px;
             font-size: 14px;
             line-height: 1.6;
             max-width: 100%;
-            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(30, 57, 50, 0.05);
+            color: var(--text-primary);
         }
 
         .message.user .message-bubble {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--starbucks-green);
+            color: white;
             border-radius: 16px 0 16px 16px;
+            box-shadow: 0 4px 12px rgba(0, 112, 74, 0.2);
         }
 
         .chart-placeholder {
