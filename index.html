@@ -49,9 +49,9 @@
 
         /* Header */
         .header {
-            height: 72px;
-            background: rgba(13, 17, 23, 0.85);
-            backdrop-filter: blur(12px);
+            height: 80px;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -68,36 +68,10 @@
             gap: 16px;
         }
 
-        .starbucks-logo {
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            position: relative;
-        }
-
-        /* Simulated Siren Logo if image not available */
-        .starbucks-logo::after {
-            content: '☕';
-            font-size: 24px;
-            position: absolute;
-            color: white;
-            z-index: 1;
-        }
-
-        .starbucks-logo::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--starbucks-green);
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 15px var(--starbucks-green-glow);
+        .starbucks-logo-img {
+            height: 48px;
+            width: auto;
+            filter: drop-shadow(0 0 12px rgba(0, 112, 74, 0.4));
         }
 
         .brand-title {
@@ -105,6 +79,7 @@
             font-size: 24px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            margin-top: 2px;
         }
 
         .brand-title .starla {
@@ -122,16 +97,24 @@
             gap: 24px;
         }
 
-        .powered-by {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
+        .powered-by-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .powered-by span {
-            color: var(--starbucks-gold);
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(203, 162, 88, 0.3);
+        .powered-by-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .optia-logo-img {
+            height: 20px;
+            width: auto;
+            opacity: 0.9;
         }
 
         .user-email {
@@ -769,15 +752,16 @@
     <!-- Header -->
     <header class="header">
         <div class="logo-section">
-            <div class="starbucks-logo">☕</div>
+            <img src="assets/starbucks-logo.png" alt="Starbucks" class="starbucks-logo-img">
             <div class="brand-title">
                 <span class="starla">STARLA</span>
                 <span class="intelligence"> Intelligence</span>
             </div>
         </div>
         <div class="header-right">
-            <div class="powered-by">
-                ⭐ Powered by <span>OptiaData</span>
+            <div class="powered-by-container">
+                <span class="powered-by-text">Powered by</span>
+                <img src="assets/optia-logo.svg" alt="OptiaData" class="optia-logo-img">
             </div>
             <div class="user-email">helena.carre@starbucks.com</div>
         </div>
