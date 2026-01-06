@@ -976,21 +976,195 @@
     </div>
 
     <script>
-        function askQuestion(question) {
-            const input = document.querySelector('.search-input input');
-            input.value = question;
-            input.focus();
-        }
+        // Mock Data for Demo
+        const DEMO_DATA = {
+            'germany': {
+                share: '15.3%', change: '+2.3pp', changeType: 'positive',
+                insight: 'Starbucks RTD market share increased, outperforming category growth.',
+                alert: 'Monster Energy is increasing promotional spend in the energy segment by 12%.',
+                trend: 'Premium Cold Brew segment shows 25% YoY growth, driven by urban centers.',
+                opportunity: 'Plant-based demand in Berlin +15% YoY.'
+            },
+            'uk': {
+                share: '12.8%', change: '-0.5pp', changeType: 'negative',
+                insight: 'Slight share erosion due to aggressive price competition from Costa.',
+                alert: 'Costa launching new RTD range in convenient stores nationwide.',
+                trend: 'Oat milk variance growing 2x faster than dairy.',
+                opportunity: 'London commuter belt shows high potential for double-shot espresso.'
+            },
+            'italy': {
+                share: '4.2%', change: '+0.1pp', changeType: 'positive',
+                insight: 'Steady growth in Milan metro area, struggling in traditional regions.',
+                alert: 'Local artisanal brands launching chilled coffee lines.',
+                trend: 'Strong preference for glass bottle format over cans.',
+                opportunity: 'Tourism season (Q3) presents +20% volume uplift potential.'
+            },
+            'all': {
+                share: '14.1%', change: '+1.2pp', changeType: 'positive',
+                insight: 'Overall EMEA performance strong, driven by DACH region gains.',
+                alert: 'New EU sustainability regulations impacting packaging costs.',
+                trend: 'Sugar reduction is the #1 consumer driver across all markets.',
+                opportunity: 'Cross-market expansion of "Frappuccino Light" SKU.'
+            }
+        };
 
-        // Update period badge when selectors change
-        document.getElementById('countrySelect').addEventListener('change', updateBadge);
-        document.getElementById('periodSelect').addEventListener('change', updateBadge);
+        const DEFAULT_DATA = DEMO_DATA['all'];
+
+        // Elements
+        const chatInput = document.querySelector('.search-input input');
+        const chatMessages = document.querySelector('.chat-messages');
+        const countrySelect = document.getElementById('countrySelect');
+        const periodSelect = document.getElementById('periodSelect');
+        const badge = document.querySelector('.period-badge');
+
+        // Initial Setup
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBadge();
+            updateInsights('all'); // Default to All EMEA
+
+            // Event Listeners
+            countrySelect.addEventListener('change', () => {
+                updateBadge();
+                updateInsights(countrySelect.value);
+            });
+            periodSelect.addEventListener('change', updateBadge);
+
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleUserMessage();
+            });
+        });
 
         function updateBadge() {
-            const country = document.getElementById('countrySelect');
-            const period = document.getElementById('periodSelect');
-            const badge = document.querySelector('.period-badge');
-            badge.textContent = `📊 ${period.options[period.selectedIndex].text} • ${country.options[country.selectedIndex].text}`;
+            const countryText = countrySelect.options[countrySelect.selectedIndex].text;
+            const periodText = periodSelect.options[periodSelect.selectedIndex].text;
+            badge.textContent = `📊 ${periodText} • ${countryText}`;
+        }
+
+        function updateInsights(countryKey) {
+            const data = DEMO_DATA[countryKey] || DEFAULT_DATA;
+
+            // Update Market Share Card
+            const shareCard = document.querySelector('.insight-card:nth-child(1)');
+            shareCard.querySelector('.metric-value').textContent = data.share;
+            const changeSpan = shareCard.querySelector('.metric-change');
+            changeSpan.textContent = data.change;
+            changeSpan.className = `metric-change ${data.changeType === 'negative' ? 'negative' : ''}`;
+            shareCard.querySelector('.insight-desc').textContent = data.insight;
+
+            // Update Competitive Alert
+            const alertCard = document.querySelector('.insight-card:nth-child(2)');
+            alertCard.querySelector('.insight-desc').textContent = data.alert;
+
+            // Update Trend
+            const trendCard = document.querySelector('.insight-card:nth-child(3)');
+            trendCard.querySelector('.insight-desc').textContent = data.trend;
+
+            // Update Opportunity
+            const oppCard = document.querySelector('.insight-card:nth-child(4)');
+            oppCard.querySelector('.insight-desc').textContent = data.opportunity;
+
+            // Animate cards refresh
+            document.querySelectorAll('.insight-card').forEach(card => {
+                card.style.opacity = '0.5';
+                setTimeout(() => card.style.opacity = '1', 200);
+            });
+        }
+
+        function askQuestion(question) {
+            chatInput.value = question;
+            chatInput.focus();
+            handleUserMessage();
+        }
+
+        function handleUserMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Add User Message
+            addMessage(text, 'user');
+            chatInput.value = '';
+
+            // Simulate Agent Thinking
+            const typingId = showTypingIndicator();
+
+            // Simulate Response Delay
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                const response = generateMockResponse(text);
+                addMessage(response, 'agent', true); // true = with chart for demo
+            }, 1500);
+        }
+
+        function addMessage(text, sender, withChart = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+
+            const avatar = document.createElement('div');
+            avatar.className = `message-avatar ${sender}`;
+            avatar.textContent = sender === 'user' ? '👤' : '☕';
+
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${sender}`;
+            bubble.innerHTML = text; // Allow HTML for formattin
+
+            if (withChart && sender === 'agent') {
+                const chartHTML = `
+                    <div class="chart-placeholder">
+                        <div class="chart-bars">
+                            <div class="chart-bar" style="height: 40px;"></div>
+                            <div class="chart-bar" style="height: 55px;"></div>
+                            <div class="chart-bar" style="height: 45px;"></div>
+                            <div class="chart-bar" style="height: 60px;"></div>
+                            <div class="chart-bar" style="height: 50px;"></div>
+                            <div class="chart-bar" style="height: 70px;"></div>
+                            <div class="chart-bar" style="height: 80px;"></div>
+                        </div>
+                    </div>
+                `;
+                bubble.innerHTML += chartHTML;
+            }
+
+            msgDiv.appendChild(avatar);
+            msgDiv.appendChild(bubble);
+            chatMessages.appendChild(msgDiv);
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.id = id;
+            msgDiv.innerHTML = `
+                <div class="message-avatar agent">☕</div>
+                <div class="message-bubble" style="color: var(--text-muted); font-style: italic;">
+                    Thinking...
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function generateMockResponse(query) {
+            const lowerQuery = query.toLowerCase();
+            if (lowerQuery.includes('share') || lowerQuery.includes('market')) {
+                return "Based on P7 2025 data, Starbucks holds a <strong>15.3% value share</strong> in Germany (+2.3pp YoY). In the UK, share is currently 12.8%.";
+            }
+            if (lowerQuery.includes('monster') || lowerQuery.includes('competit')) {
+                return "<strong>Competitive Alert:</strong> Monster Energy is incorrectly categorizing their new coffee-energy hybrid to gain shelf space in the coffee aisle. We recommend a category management review with key retailers.";
+            }
+            if (lowerQuery.includes('invest') || lowerQuery.includes('grow')) {
+                return "Strategic recommendation: Increase investment in <strong>Convenience channels</strong> in Germany. Our model predicts a 1.5pp share gain probability with a 35% spend increase in Q4.";
+            }
+            return "I can analyze that data for you. Retrieving the latest P7 2025 reports for all EMEA markets... <br><br><strong>Summary:</strong> Overall RTD category volume is up 4.2%.";
         }
     </script>
 </body>
