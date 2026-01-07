@@ -9,6 +9,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Sora:wght@400;600&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             /* Heritage Modern Palette */
@@ -1212,6 +1213,13 @@
 
                             addMessage(combinedResponse, 'agent');
 
+                            // Render Chart if data is available
+                            if (result.historicalTrends && result.historicalTrends.share_values) {
+                                renderChartInLastMessage(result.historicalTrends, result.country);
+                            } else if (text.toLowerCase().includes('compare') && result.allCountries) {
+                                renderComparisonChart(result.allCountries);
+                            }
+
                             // If the orchestrator detected a different country, update the UI
                             if (result.country && result.country.toLowerCase() !== countrySelect.value.toLowerCase()) {
                                 countrySelect.value = result.country.toLowerCase();
@@ -1234,6 +1242,81 @@
                             .replace(/- (.*?)(<br>|$)/g, '• $1$2');
                     }
 
+                    function renderChartInLastMessage(trendData, country) {
+                        const lastBubble = chatMessages.lastElementChild.querySelector('.message-bubble');
+                        const canvasId = 'chart-' + Date.now();
+                        const chartContainer = document.createElement('div');
+                        chartContainer.className = 'chart-container';
+                        chartContainer.style.marginTop = '16px';
+                        chartContainer.style.height = '200px';
+                        chartContainer.innerHTML = `<canvas id="${canvasId}"></canvas>`;
+                        lastBubble.appendChild(chartContainer);
+
+                        const ctx = document.getElementById(canvasId).getContext('2d');
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: trendData.periods,
+                                datasets: [{
+                                    label: `${country} Market Share (%)`,
+                                    data: trendData.share_values,
+                                    borderColor: '#00704A',
+                                    backgroundColor: 'rgba(0, 112, 74, 0.1)',
+                                    borderWidth: 3,
+                                    tension: 0.4,
+                                    fill: true,
+                                    pointBackgroundColor: '#00704A'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { beginAtZero: false, grid: { color: 'rgba(0,0,0,0.05)' } },
+                                    x: { grid: { display: false } }
+                                }
+                            }
+                        });
+                    }
+
+                    function renderComparisonChart(allData) {
+                        const lastBubble = chatMessages.lastElementChild.querySelector('.message-bubble');
+                        const canvasId = 'chart-' + Date.now();
+                        const chartContainer = document.createElement('div');
+                        chartContainer.className = 'chart-container';
+                        chartContainer.style.marginTop = '16px';
+                        chartContainer.style.height = '200px';
+                        chartContainer.innerHTML = `<canvas id="${canvasId}"></canvas>`;
+                        lastBubble.appendChild(chartContainer);
+
+                        const labels = Object.values(allData).map(d => d.name);
+                        const dataSelection = Object.values(allData).map(d => d.share_values[d.share_values.length - 1]);
+
+                        const ctx = document.getElementById(canvasId).getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Market Share (%)',
+                                    data: dataSelection,
+                                    backgroundColor: labels.map(l => l.toLowerCase() === countrySelect.value ? '#00704A' : '#A2C5AC'),
+                                    borderRadius: 8
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                                    x: { grid: { display: false } }
+                                }
+                            }
+                        });
+                    }
+
                     function addMessage(text, sender, withChart = false) {
                         const msgDiv = document.createElement('div');
                         msgDiv.className = 'message';
@@ -1247,19 +1330,7 @@
                         bubble.innerHTML = text; // Allow HTML for formattin
 
                         if (withChart && sender === 'agent') {
-                            const chartHTML = `
-                                <div class="chart-placeholder">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar" style="height: 40px;"></div>
-                                        <div class="chart-bar" style="height: 55px;"></div>
-                                        <div class="chart-bar" style="height: 45px;"></div>
-                                        <div class="chart-bar" style="height: 60px;"></div>
-                                        <div class="chart-bar" style="height: 50px;"></div>
-                                        <div class="chart-bar" style="height: 70px;"></div>
-                                        <div class="chart-bar" style="height: 80px;"></div>
-                                    </div>
-                                </div>`;
-                            bubble.innerHTML += chartHTML;
+                            // Placeholder logic removed - replaced by real Chart.js rendering
                         }
 
                         msgDiv.appendChild(avatar);

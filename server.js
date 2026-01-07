@@ -352,6 +352,9 @@ async function runMultiAgentWorkflow(question, country, period) {
         question,
         country,
         period,
+        data: context.data,
+        historicalTrends: countryData,
+        allCountries: EXTRACTED_DATA,
         workflow: {
             agentsInvoked: agentsToInvoke,
             analysisResults,
