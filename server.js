@@ -19,6 +19,34 @@ const openai = new OpenAI({
 });
 
 // ============================================================================
+// DATA INTEGRATION - Load Extracted PDF Data
+// ============================================================================
+let EXTRACTED_DATA = {};
+try {
+    const dataPath = path.join(__dirname, 'extracted_data.json');
+    if (fs.existsSync(dataPath)) {
+        EXTRACTED_DATA = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        console.log('✓ STARLA: Extracted data loaded successfully');
+    }
+} catch (error) {
+    console.error('Error loading extracted data:', error);
+}
+
+/**
+ * Intelligent country detection from natural language query
+ */
+function detectCountry(question) {
+    const q = question.toLowerCase();
+    if (q.includes('germany')) return 'germany';
+    if (q.includes('uk') || q.includes('united kingdom') || q.includes('british')) return 'uk';
+    if (q.includes('france') || q.includes('french')) return 'france';
+    if (q.includes('italy') || q.includes('italian')) return 'italy';
+    if (q.includes('spain') || q.includes('spanish')) return 'spain';
+    if (q.includes('netherlands') || q.includes('dutch')) return 'netherlands';
+    return null;
+}
+
+// ============================================================================
 // AGENT DEFINITIONS
 // ============================================================================
 
@@ -249,11 +277,28 @@ async function executeAgent(agentName, context, question) {
 }
 
 async function runMultiAgentWorkflow(question, country, period) {
+    // Auto-detect country from question to ensure correct context
+    const detected = detectCountry(question);
+    if (detected) {
+        country = detected;
+        console.log(`Auto-detected country: ${country}`);
+    }
+
+    const countryKey = country.toLowerCase().replace(' ', '').replace('unitedkingdom', 'uk');
+    const countryData = EXTRACTED_DATA[countryKey] || {};
+
     const context = {
         country,
         period,
-        data: STARLA_DATA[country]?.[period] || {},
-        availableCountries: Object.keys(STARLA_DATA),
+        // Use real extracted data if available, otherwise fallback to hardcoded mock
+        data: STARLA_DATA[countryKey]?.[period] || (countryData.share_values ? {
+            starbucks: {
+                share: countryData.share_values[countryData.share_values.length - 1],
+                shareChange: countryData.change_values[countryData.change_values.length - 1]
+            }
+        } : {}),
+        historicalTrends: countryData,
+        availableCountries: Object.keys(EXTRACTED_DATA),
         availablePeriods: ['p7-2025', 'p6-2025', 'p5-2025']
     };
 
@@ -261,15 +306,15 @@ async function runMultiAgentWorkflow(question, country, period) {
     const questionLower = question.toLowerCase();
     let agentsToInvoke = ['dataAnalyst'];
 
-    if (questionLower.includes('monster') || questionLower.includes('competitor') || 
+    if (questionLower.includes('monster') || questionLower.includes('competitor') ||
         questionLower.includes('red bull') || questionLower.includes('costa')) {
         agentsToInvoke.push('competitive');
     }
-    if (questionLower.includes('trend') || questionLower.includes('growth') || 
+    if (questionLower.includes('trend') || questionLower.includes('growth') ||
         questionLower.includes('channel') || questionLower.includes('opportunity')) {
         agentsToInvoke.push('market');
     }
-    if (questionLower.includes('recommend') || questionLower.includes('should') || 
+    if (questionLower.includes('recommend') || questionLower.includes('should') ||
         questionLower.includes('strategy') || questionLower.includes('invest')) {
         agentsToInvoke = ['dataAnalyst', 'competitive', 'market'];
     }
@@ -284,7 +329,7 @@ async function runMultiAgentWorkflow(question, country, period) {
         ...context,
         analysisResults: analysisResults.map(r => r.response)
     };
-    
+
     const scientistValidation = await executeAgent(
         'seniorDataScientist',
         validationContext,
@@ -293,7 +338,7 @@ async function runMultiAgentWorkflow(question, country, period) {
 
     // Step 4: McKinsey validation (for strategic questions)
     let mckinseyValidation = null;
-    if (questionLower.includes('recommend') || questionLower.includes('should') || 
+    if (questionLower.includes('recommend') || questionLower.includes('should') ||
         questionLower.includes('strategy') || questionLower.includes('invest') ||
         questionLower.includes('opportunity')) {
         mckinseyValidation = await executeAgent(
@@ -331,7 +376,7 @@ app.get('/api/health', (req, res) => {
 app.post('/api/ask', async (req, res) => {
     try {
         const { question, country = 'germany', period = 'p7-2025' } = req.body;
-        
+
         if (!question) {
             return res.status(400).json({ error: 'Question is required' });
         }
@@ -346,7 +391,7 @@ app.post('/api/ask', async (req, res) => {
 
 // Get available data
 app.get('/api/data/countries', (req, res) => {
-    res.json({ 
+    res.json({
         countries: [
             { id: 'germany', name: 'Germany' },
             { id: 'uk', name: 'United Kingdom' },
@@ -388,10 +433,10 @@ app.get('/api/data/periods', (req, res) => {
 // Get insights for dashboard
 app.get('/api/insights/:country/:period', (req, res) => {
     const { country, period } = req.params;
-    
+
     // Generate insights based on data
     const data = STARLA_DATA[country]?.[period];
-    
+
     if (!data) {
         return res.json({ insights: [], recommendations: [] });
     }
@@ -448,8 +493,8 @@ app.post('/api/extract-pdf', async (req, res) => {
     // 1. Convert PDF pages to images
     // 2. Send to GPT-4 Vision for chart/table interpretation
     // 3. Structure and store extracted data
-    
-    res.json({ 
+
+    res.json({
         message: 'PDF extraction endpoint ready',
         note: 'Requires GPT-4 Vision API for chart interpretation'
     });
